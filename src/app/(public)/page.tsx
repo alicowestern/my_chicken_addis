@@ -2,14 +2,16 @@ import Link from 'next/link'
 import { Bird, Wheat, GraduationCap, Landmark, ArrowRight } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
+import HeroBackgroundSlider from '@/components/ui/HeroBackgroundSlider'
 
 export default function HomePage() {
   return (
     <>
       {/* ==================== HERO ==================== */}
       <section className="relative min-h-[80vh] flex items-center bg-brand-dark-deep overflow-hidden py-16">
+        <HeroBackgroundSlider />
         <div className="container-main relative z-10 flex flex-col items-center text-center">
-          <div className="max-w-4xl mx-auto flex flex-col items-center text-center w-full bg-brand-dark-deep/50 backdrop-blur-md p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+          <div className="max-w-4xl mx-auto flex flex-col items-center text-center w-full">
             <h1 className="mb-8 leading-tight w-full text-center drop-shadow-lg">
               GROW YOUR<br/>
               <span className="text-gradient-brand">POULTRY BUSINESS</span><br/>

@@ -24,10 +24,10 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block mb-6">
               <span className="block text-2xl font-bold text-brand-white font-heading leading-none">
-                my chicken
+                My Chicken
               </span>
               <span className="block text-sm font-bold text-brand-cyan tracking-[0.2em] uppercase mt-1 leading-none">
-                addis
+                Addis
               </span>
             </Link>
             <p className="text-brand-muted text-sm leading-relaxed mb-6">

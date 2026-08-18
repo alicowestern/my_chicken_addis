@@ -3,9 +3,8 @@
 import React, { useState, useEffect } from 'react'
 
 const images = [
-  "https://images.unsplash.com/photo-1563213126-a4273aed2016?q=80&w=2070&auto=format&fit=crop", // Chickens eating in bright grassy field
-  "https://images.unsplash.com/photo-1588626601446-ee3067eb74eb?q=80&w=2070&auto=format&fit=crop", // Chickens eating in bright area
-  "https://images.unsplash.com/photo-1629853925760-466d03d8d594?q=80&w=2070&auto=format&fit=crop"  // Flock of chickens on bright farm
+  "/Images/img1.png",
+  "/Images/img2.png"
 ]
 
 export default function HeroBackgroundSlider() {

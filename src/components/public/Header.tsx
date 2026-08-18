@@ -50,15 +50,13 @@ export default function Header() {
         <div className="flex items-center justify-between h-20 md:h-24">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 relative z-50">
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-brand rounded-md flex items-center justify-center shadow-glow">
-              <span className="text-brand-dark-deep font-bold text-lg font-heading">MC</span>
-            </div>
+            <img src="/Images/logo.png" alt="My Chicken Addis Logo" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
             <div className="hidden sm:flex flex-col">
               <span className="text-xl md:text-2xl font-bold text-brand-white font-heading leading-none">
-                my chicken
+                My Chicken
               </span>
               <span className="text-sm font-bold text-brand-cyan tracking-[0.2em] uppercase mt-1 leading-none">
-                addis
+                Addis
               </span>
             </div>
           </Link>
