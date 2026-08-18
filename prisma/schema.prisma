@@ -1,0 +1,1063 @@
+// My Chicken Addis — Complete Database Schema
+// Poultry Farming & Farmer Services Platform
+// Version: 1.0
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================
+// AUTHENTICATION & USER MANAGEMENT
+// ============================================================
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  FINANCE_OFFICER
+  TRAINING_MANAGER
+  SUPPORT_STAFF
+  CONTENT_MANAGER
+  FARMER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+model User {
+  id             String     @id @default(cuid())
+  name           String
+  email          String     @unique
+  emailVerified  DateTime?
+  password       String?
+  image          String?
+  phone          String?
+  role           UserRole   @default(FARMER)
+  status         UserStatus @default(ACTIVE)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  // Relations
+  accounts                Account[]
+  sessions                Session[]
+  farmer                  Farmer?
+  blogPosts               BlogPost[]
+  assignedLeads           Lead[]              @relation("AssignedStaff")
+  assignedFinancing       FinancingApplication[] @relation("AssignedOfficer")
+  auditLogs               AuditLog[]
+  notifications           Notification[]
+
+  @@index([email])
+  @@index([role])
+  @@index([status])
+  @@map("users")
+}
+
+// NextAuth.js models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ============================================================
+// FARMER MANAGEMENT
+// ============================================================
+
+enum FarmerStatus {
+  ACTIVE
+  INACTIVE
+  PROSPECT
+  ARCHIVED
+}
+
+model Farmer {
+  id               String       @id @default(cuid())
+  userId           String?      @unique
+  farmerId         String       @unique @default(cuid()) // Human-readable farmer ID
+  fullName         String
+  phone            String
+  email            String?
+  location         String?
+  farmLocation     String?
+  experience       String?
+  farmSize         String?
+  birdCapacity     Int?
+  status           FarmerStatus @default(PROSPECT)
+  registrationDate DateTime     @default(now())
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  deletedAt        DateTime?
+
+  // Relations
+  user                  User?                 @relation(fields: [userId], references: [id])
+  birdOrders            BirdOrder[]
+  feedOrders            FeedOrder[]
+  trainingRegistrations TrainingRegistration[]
+  financingApplications FinancingApplication[]
+  farms                 Farm[]
+
+  @@index([phone])
+  @@index([email])
+  @@index([status])
+  @@index([location])
+  @@map("farmers")
+}
+
+// ============================================================
+// BIRD MANAGEMENT
+// ============================================================
+
+enum BirdProductStatus {
+  AVAILABLE
+  LIMITED
+  SOLD_OUT
+  UPCOMING
+  ARCHIVED
+}
+
+model BirdProduct {
+  id                String            @id @default(cuid())
+  name              String
+  birdType          String
+  description       String?           @db.Text
+  age               String?
+  weight            String?
+  price             Decimal?          @db.Decimal(10, 2)
+  availableQuantity Int               @default(0)
+  minimumOrder      Int?
+  availabilityDate  DateTime?
+  pickupInfo        String?           @db.Text
+  deliveryInfo      String?           @db.Text
+  status            BirdProductStatus @default(AVAILABLE)
+  image             String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  deletedAt         DateTime?
+
+  // Relations
+  orderItems BirdOrderItem[]
+  batches    BirdBatch[]
+
+  @@index([status])
+  @@index([birdType])
+  @@map("bird_products")
+}
+
+// ============================================================
+// BIRD ORDER MANAGEMENT
+// ============================================================
+
+enum OrderStatus {
+  NEW
+  CONFIRMED
+  PREPARING
+  READY
+  DELIVERED
+  COMPLETED
+  CANCELLED
+}
+
+enum DeliveryMethod {
+  PICKUP
+  DELIVERY
+}
+
+model BirdOrder {
+  id             String         @id @default(cuid())
+  orderNumber    String         @unique @default(cuid())
+  farmerId       String?
+  customerName   String?
+  customerPhone  String?
+  customerEmail  String?
+  customerLocation String?
+  orderDate      DateTime       @default(now())
+  preferredDate  DateTime?
+  deliveryMethod DeliveryMethod @default(PICKUP)
+  status         OrderStatus    @default(NEW)
+  totalAmount    Decimal?       @db.Decimal(10, 2)
+  experience     String?
+  message        String?        @db.Text
+  notes          String?        @db.Text
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  deletedAt      DateTime?
+
+  // Relations
+  farmer Farmer?         @relation(fields: [farmerId], references: [id])
+  items  BirdOrderItem[]
+  lead   Lead?
+
+  @@index([farmerId])
+  @@index([status])
+  @@index([orderDate])
+  @@map("bird_orders")
+}
+
+model BirdOrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+  total     Decimal @db.Decimal(10, 2)
+
+  // Relations
+  order   BirdOrder   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product BirdProduct @relation(fields: [productId], references: [id])
+
+  @@map("bird_order_items")
+}
+
+// ============================================================
+// FEED MANAGEMENT
+// ============================================================
+
+enum FeedCategory {
+  STARTER
+  GROWER
+  FINISHER
+  LAYER
+  OTHER_INPUTS
+}
+
+enum FeedProductStatus {
+  AVAILABLE
+  LOW_STOCK
+  OUT_OF_STOCK
+  DISCONTINUED
+  ARCHIVED
+}
+
+model FeedProduct {
+  id            String            @id @default(cuid())
+  name          String
+  description   String?           @db.Text
+  category      FeedCategory      @default(STARTER)
+  suitableStage String?
+  packageSize   String?
+  purchasePrice Decimal?          @db.Decimal(10, 2)
+  sellingPrice  Decimal?          @db.Decimal(10, 2)
+  stockQuantity Int               @default(0)
+  reorderLevel  Int               @default(10)
+  supplier      String?
+  status        FeedProductStatus @default(AVAILABLE)
+  image         String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  deletedAt     DateTime?
+
+  // Relations
+  orderItems FeedOrderItem[]
+  inventory  FeedInventory[]
+
+  @@index([category])
+  @@index([status])
+  @@map("feed_products")
+}
+
+enum InventoryType {
+  RECEIVED
+  SOLD
+  ADJUSTMENT
+}
+
+model FeedInventory {
+  id        String        @id @default(cuid())
+  productId String
+  type      InventoryType
+  quantity  Int
+  notes     String?       @db.Text
+  createdAt DateTime      @default(now())
+
+  // Relations
+  product FeedProduct @relation(fields: [productId], references: [id])
+
+  @@index([productId])
+  @@index([type])
+  @@map("feed_inventory")
+}
+
+// ============================================================
+// FEED ORDER MANAGEMENT
+// ============================================================
+
+model FeedOrder {
+  id             String         @id @default(cuid())
+  orderNumber    String         @unique @default(cuid())
+  farmerId       String?
+  customerName   String?
+  customerPhone  String?
+  customerEmail  String?
+  orderDate      DateTime       @default(now())
+  deliveryMethod DeliveryMethod @default(PICKUP)
+  status         OrderStatus    @default(NEW)
+  totalAmount    Decimal?       @db.Decimal(10, 2)
+  notes          String?        @db.Text
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  deletedAt      DateTime?
+
+  // Relations
+  farmer Farmer?        @relation(fields: [farmerId], references: [id])
+  items  FeedOrderItem[]
+
+  @@index([farmerId])
+  @@index([status])
+  @@map("feed_orders")
+}
+
+model FeedOrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+  total     Decimal @db.Decimal(10, 2)
+
+  // Relations
+  order   FeedOrder   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product FeedProduct @relation(fields: [productId], references: [id])
+
+  @@map("feed_order_items")
+}
+
+// ============================================================
+// TRAINING MANAGEMENT
+// ============================================================
+
+enum CourseStatus {
+  ACTIVE
+  DRAFT
+  COMPLETED
+  ARCHIVED
+}
+
+model TrainingCourse {
+  id          String       @id @default(cuid())
+  name        String
+  description String?      @db.Text
+  category    String?
+  duration    String?
+  trainer     String?
+  location    String?
+  price       Decimal?     @db.Decimal(10, 2)
+  capacity    Int?
+  status      CourseStatus @default(DRAFT)
+  image       String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
+
+  // Relations
+  events        TrainingEvent[]
+  registrations TrainingRegistration[]
+
+  @@index([status])
+  @@map("training_courses")
+}
+
+enum TrainingEventStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+model TrainingEvent {
+  id           String              @id @default(cuid())
+  courseId      String
+  title        String?
+  description  String?             @db.Text
+  date         DateTime
+  startTime    String?
+  endTime      String?
+  location     String?
+  status       TrainingEventStatus @default(UPCOMING)
+  featuredImage String?
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  // Relations
+  course        TrainingCourse       @relation(fields: [courseId], references: [id])
+  registrations TrainingRegistration[]
+
+  @@index([courseId])
+  @@index([date])
+  @@index([status])
+  @@map("training_events")
+}
+
+enum AttendanceStatus {
+  REGISTERED
+  CONFIRMED
+  ATTENDED
+  DID_NOT_ATTEND
+  CANCELLED
+}
+
+enum CertificateStatus {
+  NOT_ISSUED
+  ISSUED
+  REVOKED
+}
+
+model TrainingRegistration {
+  id                String            @id @default(cuid())
+  farmerId          String?
+  courseId           String
+  eventId           String?
+  registrantName    String?
+  registrantPhone   String?
+  registrantEmail   String?
+  registrationDate  DateTime          @default(now())
+  attendance        AttendanceStatus  @default(REGISTERED)
+  certificateStatus CertificateStatus @default(NOT_ISSUED)
+  notes             String?           @db.Text
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  // Relations
+  farmer  Farmer?        @relation(fields: [farmerId], references: [id])
+  course  TrainingCourse @relation(fields: [courseId], references: [id])
+  event   TrainingEvent? @relation(fields: [eventId], references: [id])
+
+  @@index([farmerId])
+  @@index([courseId])
+  @@index([eventId])
+  @@map("training_registrations")
+}
+
+// ============================================================
+// FINANCING MANAGEMENT
+// ============================================================
+
+enum FinancingStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  DOCUMENTS_REQUIRED
+  REFERRED
+  APPROVED
+  REJECTED
+  CANCELLED
+  COMPLETED
+}
+
+model FinancingPartner {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+  contactInfo String?  @db.Text
+  website     String?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  applications FinancingApplication[]
+
+  @@map("financing_partners")
+}
+
+model FinancingApplication {
+  id                String          @id @default(cuid())
+  applicationNumber String          @unique @default(cuid())
+  farmerId          String?
+  partnerId         String?
+  applicantName     String?
+  applicantPhone    String?
+  applicantEmail    String?
+  applicantLocation String?
+  farmLocation      String?
+  experience        String?
+  currentBirds      Int?
+  plannedBirds      Int?
+  requestedAmount   Decimal?        @db.Decimal(12, 2)
+  estimatedInvestment Decimal?      @db.Decimal(12, 2)
+  purpose           String?         @db.Text
+  farmInfo          String?         @db.Text
+  existingFarm      Boolean         @default(false)
+  message           String?         @db.Text
+  status            FinancingStatus @default(SUBMITTED)
+  assignedOfficerId String?
+  notes             String?         @db.Text
+  referralInfo      String?         @db.Text
+  applicationDate   DateTime        @default(now())
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  deletedAt         DateTime?
+
+  // Relations
+  farmer          Farmer?              @relation(fields: [farmerId], references: [id])
+  partner         FinancingPartner?    @relation(fields: [partnerId], references: [id])
+  assignedOfficer User?                @relation("AssignedOfficer", fields: [assignedOfficerId], references: [id])
+  documents       FinancingDocument[]
+
+  @@index([farmerId])
+  @@index([partnerId])
+  @@index([status])
+  @@index([assignedOfficerId])
+  @@map("financing_applications")
+}
+
+model FinancingDocument {
+  id            String   @id @default(cuid())
+  applicationId String
+  name          String
+  fileUrl       String
+  fileType      String?
+  fileSize      Int?
+  createdAt     DateTime @default(now())
+
+  // Relations
+  application FinancingApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@index([applicationId])
+  @@map("financing_documents")
+}
+
+// ============================================================
+// LEAD MANAGEMENT
+// ============================================================
+
+enum LeadType {
+  BIRD_INQUIRY
+  FEED_INQUIRY
+  TRAINING
+  FINANCING
+  GENERAL_CONTACT
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+  ARCHIVED
+}
+
+model Lead {
+  id             String     @id @default(cuid())
+  name           String
+  phone          String?
+  email          String?
+  location       String?
+  type           LeadType   @default(GENERAL_CONTACT)
+  subject        String?
+  message        String?    @db.Text
+  status         LeadStatus @default(NEW)
+  assignedStaffId String?
+  notes          String?    @db.Text
+  birdOrderId    String?    @unique
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  deletedAt      DateTime?
+
+  // Relations
+  assignedStaff User?      @relation("AssignedStaff", fields: [assignedStaffId], references: [id])
+  birdOrder     BirdOrder? @relation(fields: [birdOrderId], references: [id])
+
+  @@index([type])
+  @@index([status])
+  @@index([assignedStaffId])
+  @@index([createdAt])
+  @@map("leads")
+}
+
+// ============================================================
+// BLOG & CONTENT MANAGEMENT
+// ============================================================
+
+enum PostStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+  ARCHIVED
+}
+
+model BlogCategory {
+  id          String @id @default(cuid())
+  name        String @unique
+  slug        String @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  posts BlogPost[]
+
+  @@map("blog_categories")
+}
+
+model BlogTag {
+  id   String @id @default(cuid())
+  name String @unique
+  slug String @unique
+
+  // Relations
+  posts BlogPostTag[]
+
+  @@map("blog_tags")
+}
+
+model BlogPost {
+  id             String     @id @default(cuid())
+  title          String
+  slug           String     @unique
+  excerpt        String?    @db.Text
+  content        String?    @db.Text
+  featuredImage  String?
+  categoryId     String?
+  authorId       String?
+  status         PostStatus @default(DRAFT)
+  publishedAt    DateTime?
+  seoTitle       String?
+  seoDescription String?    @db.Text
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  deletedAt      DateTime?
+
+  // Relations
+  category BlogCategory? @relation(fields: [categoryId], references: [id])
+  author   User?         @relation(fields: [authorId], references: [id])
+  tags     BlogPostTag[]
+
+  @@index([slug])
+  @@index([categoryId])
+  @@index([authorId])
+  @@index([status])
+  @@index([publishedAt])
+  @@map("blog_posts")
+}
+
+model BlogPostTag {
+  postId String
+  tagId  String
+
+  post BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag  BlogTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@map("blog_post_tags")
+}
+
+// ============================================================
+// EVENTS
+// ============================================================
+
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+model Event {
+  id           String      @id @default(cuid())
+  title        String
+  slug         String      @unique
+  description  String?     @db.Text
+  eventType    String?
+  date         DateTime
+  startTime    String?
+  endTime      String?
+  location     String?
+  organizer    String?
+  featuredImage String?
+  galleryImages String[]
+  status       EventStatus @default(UPCOMING)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  deletedAt    DateTime?
+
+  // Relations
+  registrations EventRegistration[]
+
+  @@index([date])
+  @@index([status])
+  @@index([slug])
+  @@map("events")
+}
+
+enum EventAttendance {
+  REGISTERED
+  CONFIRMED
+  ATTENDED
+  DID_NOT_ATTEND
+  CANCELLED
+}
+
+model EventRegistration {
+  id           String          @id @default(cuid())
+  eventId      String
+  name         String
+  phone        String?
+  email        String?
+  organization String?
+  location     String?
+  participants Int             @default(1)
+  message      String?         @db.Text
+  attendance   EventAttendance @default(REGISTERED)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  // Relations
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([eventId])
+  @@map("event_registrations")
+}
+
+// ============================================================
+// MEDIA & GALLERY
+// ============================================================
+
+enum MediaCategory {
+  FARM
+  BIRDS
+  FEED
+  TRAINING
+  FARMERS
+  EVENTS
+  TEAM
+  FACILITIES
+  BLOG
+  GENERAL
+}
+
+model Media {
+  id        String        @id @default(cuid())
+  url       String
+  alt       String?
+  caption   String?
+  category  MediaCategory @default(GENERAL)
+  fileType  String?
+  fileSize  Int?
+  width     Int?
+  height    Int?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([category])
+  @@map("media")
+}
+
+// ============================================================
+// TESTIMONIALS
+// ============================================================
+
+enum TestimonialStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model Testimonial {
+  id          String            @id @default(cuid())
+  farmerName  String
+  location    String?
+  photo       String?
+  content     String            @db.Text
+  status      TestimonialStatus @default(DRAFT)
+  displayDate DateTime          @default(now())
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([status])
+  @@map("testimonials")
+}
+
+// ============================================================
+// FAQ
+// ============================================================
+
+enum FAQCategory {
+  BIRDS
+  FEED
+  TRAINING
+  FINANCING
+  GENERAL
+}
+
+enum FAQStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model FAQ {
+  id           String      @id @default(cuid())
+  question     String
+  answer       String      @db.Text
+  category     FAQCategory @default(GENERAL)
+  displayOrder Int         @default(0)
+  status       FAQStatus   @default(ACTIVE)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([category])
+  @@index([displayOrder])
+  @@map("faqs")
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+
+enum NotificationType {
+  NEW_ORDER
+  ORDER_STATUS
+  TRAINING_REGISTRATION
+  EVENT_REMINDER
+  FINANCING_STATUS
+  NEW_ARTICLE
+  BIRD_AVAILABILITY
+  SYSTEM
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String           @db.Text
+  read      Boolean          @default(false)
+  link      String?
+  createdAt DateTime         @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([read])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+// ============================================================
+// AUDIT LOG
+// ============================================================
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  oldValue  String?  @db.Text
+  newValue  String?  @db.Text
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([entity])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ============================================================
+// WEBSITE SETTINGS
+// ============================================================
+
+model WebsiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  group     String   @default("general")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([group])
+  @@map("website_settings")
+}
+
+// ============================================================
+// FUTURE: FARM MANAGEMENT (Schema ready, UI later)
+// ============================================================
+
+enum FarmStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+model Farm {
+  id           String     @id @default(cuid())
+  farmerId     String
+  name         String?
+  location     String
+  capacity     Int?
+  type         String?
+  status       FarmStatus @default(ACTIVE)
+  registeredAt DateTime   @default(now())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+
+  // Relations
+  farmer  Farmer      @relation(fields: [farmerId], references: [id])
+  batches BirdBatch[]
+
+  @@index([farmerId])
+  @@index([status])
+  @@map("farms")
+}
+
+enum BatchStatus {
+  ACTIVE
+  SOLD
+  COMPLETED
+  LOST
+}
+
+model BirdBatch {
+  id               String      @id @default(cuid())
+  farmId           String
+  productId        String?
+  birdType         String
+  arrivalDate      DateTime
+  startingQuantity Int
+  currentQuantity  Int
+  age              Int?        // in days
+  mortality        Int         @default(0)
+  feedUsage        Decimal?    @db.Decimal(10, 2)
+  status           BatchStatus @default(ACTIVE)
+  notes            String?     @db.Text
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  // Relations
+  farm    Farm         @relation(fields: [farmId], references: [id])
+  product BirdProduct? @relation(fields: [productId], references: [id])
+
+  @@index([farmId])
+  @@index([status])
+  @@map("bird_batches")
+}
+
+// ============================================================
+// FUTURE: FINANCIAL MANAGEMENT (Schema ready, UI later)
+// ============================================================
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  BANK_TRANSFER
+  MOBILE_MONEY
+  OTHER
+}
+
+model Payment {
+  id          String        @id @default(cuid())
+  type        String        // BIRD_ORDER, FEED_ORDER, TRAINING, etc.
+  referenceId String?       // ID of related order/registration
+  amount      Decimal       @db.Decimal(12, 2)
+  method      PaymentMethod @default(CASH)
+  reference   String?
+  status      PaymentStatus @default(PENDING)
+  paidAt      DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([type])
+  @@index([status])
+  @@map("payments")
+}
+
+enum IncomeCategory {
+  BIRD_SALES
+  FEED_SALES
+  TRAINING
+  OTHER
+}
+
+model Income {
+  id          String         @id @default(cuid())
+  category    IncomeCategory
+  amount      Decimal        @db.Decimal(12, 2)
+  description String?
+  date        DateTime
+  referenceId String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([category])
+  @@index([date])
+  @@map("income")
+}
+
+enum ExpenseCategory {
+  FEED
+  BIRDS
+  TRANSPORT
+  SALARY
+  MEDICINE
+  UTILITIES
+  MAINTENANCE
+  OTHER
+}
+
+model Expense {
+  id          String          @id @default(cuid())
+  category    ExpenseCategory
+  amount      Decimal         @db.Decimal(12, 2)
+  description String?
+  date        DateTime
+  referenceId String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([category])
+  @@index([date])
+  @@map("expenses")
+}

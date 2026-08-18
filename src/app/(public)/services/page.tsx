@@ -1,0 +1,123 @@
+import { SectionHeader } from '@/components/ui/index'
+import Button from '@/components/ui/Button'
+import Card from '@/components/ui/Card'
+import Link from 'next/link'
+import { Bird, Wheat, GraduationCap, Landmark, ArrowRight } from 'lucide-react'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Our Services',
+  description: 'Explore the core services of My Chicken Addis: 45-Day Birds, Poultry Feed, Farmer Training, and Financing Access.',
+}
+
+const coreServices = [
+  {
+    id: 'birds',
+    title: '45-Day Birds',
+    description: 'High-quality broiler chicks bred for optimal growth and health, ready for market in just 45 days. We provide strong, disease-resistant birds to maximize your farm\'s profitability.',
+    icon: <Bird className="w-8 h-8" />,
+    href: '/birds',
+    features: ['High livability', 'Fast growth rate', 'Vaccinated chicks'],
+  },
+  {
+    id: 'feed',
+    title: 'Poultry Feed',
+    description: 'Scientifically formulated feed for every stage of your flock\'s development. From starter to finisher, our feed ensures maximum nutritional absorption and weight gain.',
+    icon: <Wheat className="w-8 h-8" />,
+    href: '/feed',
+    features: ['Starter Feed', 'Grower Feed', 'Finisher Feed'],
+  },
+  {
+    id: 'training',
+    title: 'Farmer Training',
+    description: 'Practical, hands-on training programs designed for both beginners and experienced farmers. Learn best practices in farm management, biosecurity, and business planning.',
+    icon: <GraduationCap className="w-8 h-8" />,
+    href: '/training',
+    features: ['Farm Setup', 'Disease Prevention', 'Business Management'],
+  },
+  {
+    id: 'financing',
+    title: 'Financing Access',
+    description: 'We connect dedicated farmers with financing opportunities through our partners, helping you access the capital needed to start or expand your poultry business.',
+    icon: <Landmark className="w-8 h-8" />,
+    href: '/financing',
+    features: ['Partner Network', 'Expansion Support', 'Clear Guidance'],
+  },
+]
+
+export default function ServicesPage() {
+  return (
+    <>
+      <section className="relative py-16 bg-brand-dark-deep overflow-hidden border-b border-[rgba(255,255,255,0.05)]">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[radial-gradient(circle_at_center,rgba(79,195,247,0.05)_0%,transparent_70%)]" />
+        </div>
+        <div className="container-main relative z-10 flex flex-col items-center text-center">
+          <div className="max-w-3xl mx-auto">
+            <SectionHeader
+              as="h1"
+              label="Our Ecosystem"
+              title="A Complete Ecosystem for Poultry Success"
+              description="Everything you need to run a profitable poultry farm, provided by a single trusted partner."
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="section-padding bg-brand-dark">
+        <div className="container-main">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            {coreServices.map((service) => (
+              <Card key={service.id} hover className="p-8 lg:p-10 bg-brand-surface border-[rgba(255,255,255,0.05)] group">
+                <div className="flex flex-col h-full">
+                  <div className="w-16 h-16 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan mb-8 group-hover:scale-110 transition-transform shadow-glow">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold text-brand-white mb-4">{service.title}</h3>
+                  <p className="text-brand-light-gray leading-relaxed mb-8 flex-grow">
+                    {service.description}
+                  </p>
+                  
+                  <div className="mb-8">
+                    <ul className="space-y-3">
+                      {service.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-center text-sm text-brand-muted">
+                          <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan mr-3" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <Link href={service.href}>
+                    <Button variant="secondary" className="w-full sm:w-auto rounded-full group-hover:bg-brand-cyan group-hover:text-brand-dark-deep">
+                      Explore {service.title} <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="section-padding bg-brand-dark-deep border-t border-[rgba(255,255,255,0.05)] text-center relative">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(79,195,247,0.05)_0%,transparent_50%)]" />
+        <div className="container-main relative z-10 flex flex-col items-center text-center">
+          <h2 className="mb-6 max-w-2xl text-center">Ready to Start?</h2>
+          <p className="text-brand-light-gray text-lg mb-10 max-w-xl text-center">
+            Contact us today to discuss your farming needs and how our services can help you grow.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="/contact">
+              <Button size="lg" className="rounded-full">Talk to Us</Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
+
+
