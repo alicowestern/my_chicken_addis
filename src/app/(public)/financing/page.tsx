@@ -1,8 +1,8 @@
 import { SectionHeader } from '@/components/ui/index'
-import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import Link from 'next/link'
-import { Landmark, Briefcase, FileText } from 'lucide-react'
+import { Landmark } from 'lucide-react'
+import FinancingForm from './FinancingForm'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -50,7 +50,7 @@ export default function FinancingPage() {
 
             <h3 className="text-2xl font-bold text-brand-white mb-8 text-center">How to Apply</h3>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
               {[
                 { step: '01', title: 'Consultation', desc: 'Discuss your farm plan and capital needs with our advisory team.' },
                 { step: '02', title: 'Documentation', desc: 'Prepare your business plan, identification, and farm records.' },
@@ -64,10 +64,11 @@ export default function FinancingPage() {
               ))}
             </div>
 
-            <div className="mt-12 text-center">
-              <Link href="/contact">
-                <Button size="lg" className="rounded-full">Discuss Financing Options</Button>
-              </Link>
+            {/* Application Form */}
+            <div className="bg-brand-surface rounded-2xl p-8 border border-[rgba(255,255,255,0.05)] shadow-card">
+              <h3 className="text-2xl font-bold font-heading text-brand-white mb-2">Apply for Financing</h3>
+              <p className="text-brand-muted text-sm mb-8">Fill out the form below and our team will review your application.</p>
+              <FinancingForm />
             </div>
           </div>
         </div>
@@ -75,6 +76,3 @@ export default function FinancingPage() {
     </>
   )
 }
-
-
-

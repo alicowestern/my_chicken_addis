@@ -2,6 +2,8 @@ import { SectionHeader } from '@/components/ui/index'
 import Button from '@/components/ui/Button'
 import Link from 'next/link'
 import { Bird, CheckCircle2, Clock, ShieldCheck, TrendingUp } from 'lucide-react'
+import { getAvailableBirdProducts } from '@/lib/actions/public'
+import BirdOrderForm from './BirdOrderForm'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -9,7 +11,10 @@ export const metadata: Metadata = {
   description: 'Quality broiler chicks bred for optimal growth and health, ready for market in just 45 days.',
 }
 
-export default function BirdsPage() {
+export default async function BirdsPage() {
+  const result = await getAvailableBirdProducts()
+  const products = result.success ? result.data : []
+
   return (
     <>
       <section className="relative py-16 bg-brand-dark-deep overflow-hidden border-b border-[rgba(255,255,255,0.05)]">
@@ -22,9 +27,9 @@ export default function BirdsPage() {
               description="Our broilers are bred for optimal health, fast growth, and high meat yield. Ready for the market in exactly 45 days."
             />
             <div className="flex flex-wrap justify-center gap-4 mt-8">
-              <Link href="/contact">
+              <a href="#order-form">
                 <Button size="lg" className="rounded-full">Request Birds</Button>
-              </Link>
+              </a>
               <Link href="/feed">
                 <Button size="lg" variant="secondary" className="rounded-full">View Compatible Feed</Button>
               </Link>
@@ -42,7 +47,7 @@ export default function BirdsPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
             {[
               {
                 icon: <Clock className="w-8 h-8" />,
@@ -73,6 +78,12 @@ export default function BirdsPage() {
                 <p className="text-brand-muted text-sm leading-relaxed">{feature.description}</p>
               </div>
             ))}
+          </div>
+          
+          <div id="order-form" className="scroll-mt-24 max-w-4xl mx-auto bg-brand-surface rounded-2xl p-8 border border-[rgba(255,255,255,0.05)] shadow-card">
+            <h3 className="text-2xl font-bold font-heading text-brand-white mb-2">Request Bird Order</h3>
+            <p className="text-brand-muted text-sm mb-8">Fill out the form below to request a bird order. Our team will contact you to confirm details.</p>
+            <BirdOrderForm products={products} />
           </div>
         </div>
       </section>
@@ -110,5 +121,3 @@ export default function BirdsPage() {
     </>
   )
 }
-
-

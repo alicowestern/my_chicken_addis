@@ -1,6 +1,5 @@
 import { SectionHeader } from '@/components/ui/index'
-import Input from '@/components/ui/Input'
-import Button from '@/components/ui/Button'
+import ContactForm from '@/components/public/ContactForm'
 import { Phone, Mail, MapPin, MessageCircle, Clock } from 'lucide-react'
 import type { Metadata } from 'next'
 
@@ -31,26 +30,7 @@ export default function ContactPage() {
             {/* Contact Form */}
             <div className="bg-brand-surface rounded-2xl p-8 border border-[rgba(255,255,255,0.05)] shadow-card">
               <h3 className="text-2xl font-bold font-heading text-brand-white mb-6">Send Us a Message</h3>
-              <form className="space-y-5">
-                <Input label="Full Name" placeholder="Your full name" required />
-                <Input label="Phone" type="tel" placeholder="+251..." required />
-                <Input label="Email" type="email" placeholder="your@email.com" />
-                <Input label="Subject" placeholder="How can we help?" />
-                <div>
-                  <label className="block text-sm font-medium text-brand-light-gray mb-1.5">
-                    Message <span className="text-error">*</span>
-                  </label>
-                  <textarea
-                    rows={4}
-                    placeholder="Tell us more..."
-                    required
-                    className="w-full rounded-md border bg-brand-dark px-4 py-3 text-base text-brand-white placeholder:text-brand-gray transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-brand-cyan-dim focus:border-brand-cyan border-brand-gray hover:border-brand-light-gray"
-                  />
-                </div>
-                <Button type="submit" size="lg" fullWidth className="rounded-full">
-                  Send Message
-                </Button>
-              </form>
+              <ContactForm />
             </div>
 
             {/* Contact Info */}
@@ -117,6 +97,3 @@ export default function ContactPage() {
     </>
   )
 }
-
-
-
