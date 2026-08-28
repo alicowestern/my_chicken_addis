@@ -324,3 +324,18 @@ export async function getGalleryMedia(category?: string) {
     return handleActionError(error)
   }
 }
+
+export async function getAvailableBirdProducts() {
+  try {
+    const products = await prisma.birdProduct.findMany({
+      where: {
+        status: { in: ['AVAILABLE', 'LIMITED', 'SOLD_OUT', 'UPCOMING'] },
+        deletedAt: null
+      },
+      orderBy: { createdAt: 'desc' }
+    })
+    return { success: true as const, data: products }
+  } catch (error) {
+    return handleActionError(error)
+  }
+}

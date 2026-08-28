@@ -20,8 +20,13 @@ export default function AdminError({
           Something went wrong
         </h2>
         <p className="text-brand-muted text-sm mb-6">
-          {error.message || 'An unexpected error occurred. Please try again.'}
+          An unexpected error occurred. Please try again or contact support if the problem persists.
         </p>
+        {process.env.NODE_ENV === 'development' && error.message && (
+          <div className="mb-6 p-3 bg-brand-dark rounded-lg border border-[rgba(255,255,255,0.05)] text-left">
+            <p className="text-xs text-error font-mono break-all">{error.message}</p>
+          </div>
+        )}
         <Button
           onClick={reset}
           icon={<RotateCcw className="w-4 h-4" />}

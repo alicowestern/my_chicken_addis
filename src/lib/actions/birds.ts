@@ -149,22 +149,3 @@ export async function deleteBirdProduct(id: string): Promise<ActionResult> {
   }
 }
 
-// ============================================================
-// GET AVAILABLE BIRD PRODUCTS (Public - no auth)
-// ============================================================
-
-export async function getAvailableBirdProducts(): Promise<ActionResult<BirdProduct[]>> {
-  try {
-    const products = await prisma.birdProduct.findMany({
-      where: {
-        deletedAt: null,
-        status: { in: ['AVAILABLE', 'LIMITED'] },
-      },
-      orderBy: { name: 'asc' },
-    })
-
-    return { success: true, data: products }
-  } catch (error) {
-    return handleActionError(error)
-  }
-}

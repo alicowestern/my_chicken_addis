@@ -11,7 +11,7 @@ import toast from 'react-hot-toast'
 interface Course {
   id: string
   name: string
-  events?: { id: string, date: Date, title: string }[]
+  events?: { id: string, date: Date, title: string | null }[]
 }
 
 export default function TrainingRegistrationForm({ courses }: { courses: Course[] }) {

@@ -2,6 +2,7 @@ import { SectionHeader } from '@/components/ui/index'
 import Card from '@/components/ui/Card'
 import { getActiveTrainingCourses } from '@/lib/actions/public'
 import TrainingRegistrationForm from './TrainingRegistrationForm'
+import Button from '@/components/ui/Button'
 import { GraduationCap, MapPin, Calendar, BookOpen, Clock } from 'lucide-react'
 import type { Metadata } from 'next'
 
@@ -84,7 +85,7 @@ export default async function TrainingPage() {
                             {course.events.map((e) => (
                               <li key={e.id} className="flex items-center gap-2">
                                 <Calendar className="w-4 h-4 text-brand-cyan/70" />
-                                {new Date(e.date).toLocaleDateString()} {e.startTime ? `at ${e.startTime}` : ''}
+                                {new Date(e.date).toLocaleDateString()} {e.startTime ? `at ${e.startTime}` : ''} {e.title ? `- ${e.title}` : ''}
                               </li>
                             ))}
                           </ul>

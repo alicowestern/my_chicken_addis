@@ -41,38 +41,37 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-brand-dark-deep flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-brand-dark-deep flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-0 left-1/2 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_center,rgba(79,195,247,0.1)_0%,transparent_50%)]" />
+      <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_center,rgba(79,195,247,0.15)_0%,transparent_50%)]" />
 
-      <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+      <div className="w-full max-w-lg relative z-10">
         <Link
           href="/"
-          className="inline-flex items-center text-sm font-medium text-brand-muted hover:text-brand-cyan mb-8 transition-colors"
+          className="inline-flex items-center text-sm font-medium text-brand-muted hover:text-brand-cyan mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Website
         </Link>
-        <div className="text-center">
-          <Link href="/" className="inline-block mb-6">
-            <span className="block text-3xl font-bold text-brand-white font-heading leading-none">
-              my chicken
-            </span>
-            <span className="block text-sm font-bold text-brand-cyan tracking-[0.2em] uppercase mt-1 leading-none">
-              addis
-            </span>
-          </Link>
-          <h2 className="mt-6 text-2xl font-bold tracking-tight text-brand-white font-heading">
-            Sign in to your account
-          </h2>
-          <p className="mt-2 text-sm text-brand-muted">
-            Access the farmer platform and admin dashboard
-          </p>
-        </div>
-      </div>
+        
+        <div className="bg-brand-surface/80 backdrop-blur-xl py-10 px-8 shadow-2xl border border-[rgba(255,255,255,0.08)] rounded-2xl">
+          <div className="text-center mb-10">
+            <Link href="/" className="inline-block mb-4">
+              <span className="block text-3xl font-bold text-brand-white font-heading leading-none">
+                My Chicken
+              </span>
+              <span className="block text-sm font-bold text-brand-cyan tracking-[0.2em] uppercase mt-1 leading-none">
+                Addis
+              </span>
+            </Link>
+            <h2 className="text-xl font-bold tracking-tight text-brand-white font-heading mt-4">
+              Admin Login
+            </h2>
+            <p className="mt-2 text-sm text-brand-muted">
+              Sign in to manage your platform
+            </p>
+          </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
-        <div className="bg-brand-surface py-8 px-4 shadow-card border border-[rgba(255,255,255,0.05)] sm:rounded-xl sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <Input
               label="Email address"
@@ -81,7 +80,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               icon={<Mail className="w-5 h-5" />}
-              placeholder="you@example.com"
+              placeholder="admin@mychickenaddis.com"
             />
 
             <Input
@@ -96,7 +95,7 @@ export default function LoginPage() {
 
             <div className="flex items-center justify-between">
               <div className="text-sm">
-                <a href="#" className="font-medium text-brand-cyan hover:text-brand-blue">
+                <a href="#" className="font-medium text-brand-cyan hover:text-brand-blue transition-colors">
                   Forgot your password?
                 </a>
               </div>
@@ -106,32 +105,16 @@ export default function LoginPage() {
               type="submit"
               fullWidth
               loading={loading}
-              className="rounded-full"
+              className="rounded-full shadow-[0_0_20px_rgba(79,195,247,0.3)] hover:shadow-[0_0_25px_rgba(79,195,247,0.5)] transition-shadow"
             >
-              Sign in
+              Sign in to Dashboard
             </Button>
           </form>
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-[rgba(255,255,255,0.1)]" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="bg-brand-surface px-2 text-brand-muted">
-                  New to My Chicken Addis?
-                </span>
-              </div>
-            </div>
-            <div className="mt-6 text-center">
-              <p className="text-sm text-brand-light-gray">
-                Registration is currently open for active farmers only.{' '}
-                <Link href="/contact" className="font-medium text-brand-cyan hover:text-brand-blue">
-                  Contact us
-                </Link>{' '}
-                to join.
-              </p>
-            </div>
+          <div className="mt-8 pt-6 border-t border-[rgba(255,255,255,0.1)] text-center">
+            <p className="text-xs text-brand-light-gray">
+              Secure access restricted to authorized administrators.
+            </p>
           </div>
         </div>
       </div>

@@ -40,9 +40,9 @@ export default async function BirdsPage() {
 
       <section className="section-padding bg-brand-dark">
         <div className="container-main">
-          <div className="text-center mb-16">
-            <h2 className="mb-6 text-center">Why Choose Our Birds?</h2>
-            <p className="subheading max-w-2xl mx-auto text-center">
+          <div className="mb-16 flex flex-col items-center text-center mx-auto">
+            <h2 className="mb-6" style={{ textAlign: 'center' }}>Why Choose Our Birds?</h2>
+            <p className="subheading max-w-2xl" style={{ textAlign: 'center' }}>
               We source and raise our chicks with strict adherence to quality and biosecurity standards.
             </p>
           </div>

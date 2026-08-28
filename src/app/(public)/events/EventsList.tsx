@@ -21,7 +21,7 @@ interface Event {
   location: string | null
   organizer: string | null
   status: string
-  capacity: number | null
+  capacity?: number | null
 }
 
 export default function EventsList({ events }: { events: Event[] }) {

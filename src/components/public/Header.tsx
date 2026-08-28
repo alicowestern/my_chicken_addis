@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, ChevronDown } from 'lucide-react'
@@ -44,18 +44,37 @@ export default function Header() {
     return children.some(child => isActive(child.href))
   }
 
+  const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), [])
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileMenuOpen])
+
+  // Close on route change
+  useEffect(() => {
+    closeMobileMenu()
+  }, [pathname, closeMobileMenu])
+
   return (
-    <header className="sticky top-0 inset-x-0 z-50 bg-brand-dark-deep border-b border-[rgba(255,255,255,0.05)] shadow-soft">
+    <header className="sticky top-0 inset-x-0 z-50 bg-brand-dark-deep/95 backdrop-blur-md border-b border-[rgba(255,255,255,0.05)] shadow-soft">
       <div className="container-main">
-        <div className="flex items-center justify-between h-20 md:h-24">
+        <div className="flex items-center justify-between h-16 sm:h-20 md:h-24">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 relative z-50">
-            <img src="/Images/logo.png" alt="My Chicken Addis Logo" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
-            <div className="hidden sm:flex flex-col">
-              <span className="text-xl md:text-2xl font-bold text-brand-white font-heading leading-none">
+            <img src="/Images/logo.png" alt="My Chicken Addis Logo" className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain" />
+            <div className="flex flex-col">
+              <span className="text-lg sm:text-xl md:text-2xl font-bold text-brand-white font-heading leading-none">
                 My Chicken
               </span>
-              <span className="text-sm font-bold text-brand-cyan tracking-[0.2em] uppercase mt-1 leading-none">
+              <span className="text-[10px] sm:text-sm font-bold text-brand-cyan tracking-[0.2em] uppercase mt-0.5 sm:mt-1 leading-none">
                 Addis
               </span>
             </div>
@@ -137,27 +156,33 @@ export default function Header() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle mobile menu"
           >
-            {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <nav className="lg:hidden py-24 border-t border-[rgba(255,255,255,0.05)] animate-fade-in bg-brand-dark-deep/95 backdrop-blur-xl fixed inset-0 z-40 w-full px-6 shadow-soft h-screen overflow-y-auto">
-            <div className="flex flex-col gap-6">
+        <div
+          className={`
+            lg:hidden fixed inset-0 z-40 bg-brand-dark-deep/98 backdrop-blur-xl
+            transform transition-all duration-300 ease-in-out
+            ${mobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'}
+          `}
+        >
+          <nav className="pt-20 px-6 pb-6 h-full overflow-y-auto">
+            <div className="flex flex-col gap-5">
               {navigation.map((item) => (
                 <div key={item.name}>
                   {item.children ? (
-                    <div className="flex flex-col gap-4">
-                      <div className="text-brand-muted font-medium text-sm tracking-widest uppercase">{item.name}</div>
-                      <div className="flex flex-col gap-4 pl-4 border-l border-[rgba(255,255,255,0.1)]">
+                    <div className="flex flex-col gap-3">
+                      <div className="text-brand-muted font-medium text-xs tracking-widest uppercase">{item.name}</div>
+                      <div className="flex flex-col gap-3 pl-4 border-l border-[rgba(255,255,255,0.1)]">
                         {item.children.map((child) => (
                           <Link
                             key={child.name}
                             href={child.href}
-                            onClick={() => setMobileMenuOpen(false)}
+                            onClick={closeMobileMenu}
                             className={`
-                              text-xl font-medium transition-colors duration-200
+                              text-lg font-medium transition-colors duration-200
                               ${isActive(child.href) ? 'text-brand-cyan' : 'text-brand-white hover:text-brand-cyan'}
                             `}
                           >
@@ -169,9 +194,9 @@ export default function Header() {
                   ) : (
                     <Link
                       href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
+                      onClick={closeMobileMenu}
                       className={`
-                        text-xl font-medium transition-colors duration-200 block
+                        text-lg font-medium transition-colors duration-200 block
                         ${isActive(item.href) || isChildActive(item.children) ? 'text-brand-cyan' : 'text-brand-white hover:text-brand-cyan'}
                       `}
                     >
@@ -180,18 +205,18 @@ export default function Header() {
                   )}
                 </div>
               ))}
-              <div className="pt-6 border-t border-[rgba(255,255,255,0.05)] mt-4">
+              <div className="pt-5 border-t border-[rgba(255,255,255,0.05)] mt-3">
                 <Link
                   href="/contact"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full text-center py-4 bg-gradient-brand text-brand-dark-deep font-bold rounded-lg"
+                  onClick={closeMobileMenu}
+                  className="block w-full text-center py-3.5 bg-gradient-brand text-brand-dark-deep font-bold rounded-xl text-base"
                 >
                   Talk to Us
                 </Link>
               </div>
             </div>
           </nav>
-        )}
+        </div>
       </div>
     </header>
   )

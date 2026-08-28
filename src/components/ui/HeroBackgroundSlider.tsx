@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 
 const images = [
-  "/Images/img1.png",
+  "/Images/img1.webp",
   "/Images/img2.png"
 ]
 

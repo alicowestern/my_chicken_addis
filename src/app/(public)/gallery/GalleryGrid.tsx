@@ -5,8 +5,11 @@ import React, { useState } from 'react'
 interface Media {
   id: string
   url: string
-  title: string | null
-  type: string
+  title?: string | null
+  type?: string | null
+  alt?: string | null
+  caption?: string | null
+  fileType?: string | null
   category: string
 }
 
@@ -47,10 +50,10 @@ export default function GalleryGrid({ items }: { items: Media[] }) {
             onClick={() => setSelectedImage(item.url)}
             className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer border border-[rgba(255,255,255,0.05)] bg-brand-surface"
           >
-            {item.type === 'IMAGE' ? (
+            {item.fileType?.includes('image') || !item.fileType ? (
               <img
                 src={item.url}
-                alt={item.title || 'Gallery image'}
+                alt={item.alt || item.title || 'Gallery image'}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             ) : (
@@ -60,7 +63,7 @@ export default function GalleryGrid({ items }: { items: Media[] }) {
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
               <div>
-                <p className="text-white font-medium text-sm line-clamp-1">{item.title}</p>
+                <p className="text-white font-medium text-sm line-clamp-1">{item.title || item.caption || item.alt}</p>
                 <p className="text-brand-cyan text-xs font-bold mt-1 uppercase tracking-wider">{item.category}</p>
               </div>
             </div>

@@ -1,4 +1,3 @@
-'use server'
 
 import { auth } from '@/lib/auth/auth'
 import { hasPermission, type Permission } from '@/lib/auth/permissions'

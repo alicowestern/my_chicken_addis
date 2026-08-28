@@ -29,26 +29,27 @@ export default function Input({
           {props.required && <span className="text-error ml-0.5">*</span>}
         </label>
       )}
-      <div className="relative">
+      <div className="relative group">
         {icon && (
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-gray">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-gray group-focus-within:text-brand-cyan transition-colors">
             {icon}
           </div>
         )}
         <input
           id={inputId}
           className={`
-            w-full rounded-md border bg-brand-dark
-            px-4 py-3 text-base text-brand-white
-            placeholder:text-brand-gray
-            transition-all duration-200
-            focus:outline-none focus:ring-4 focus:ring-brand-cyan-dim focus:border-brand-cyan
+            w-full rounded-xl border bg-brand-dark/40 backdrop-blur-md
+            px-5 py-4 text-base text-brand-white shadow-inner
+            placeholder:text-brand-gray/60
+            transition-all duration-300
+            focus:outline-none focus:ring-2 focus:ring-brand-cyan/50 focus:border-brand-cyan
+            focus:bg-brand-dark/80
             disabled:opacity-50 disabled:cursor-not-allowed
-            ${icon ? 'pl-11' : ''}
+            ${icon ? 'pl-12' : ''}
             ${
               error
-                ? 'border-error focus:ring-[rgba(239,83,80,0.15)] focus:border-error'
-                : 'border-brand-gray hover:border-brand-light-gray'
+                ? 'border-error/50 focus:ring-error/20 focus:border-error'
+                : 'border-white/10 hover:border-white/20'
             }
             ${className}
           `}
