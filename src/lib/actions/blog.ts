@@ -14,6 +14,21 @@ import {
 import type { BlogPost, BlogCategory } from '@prisma/client'
 import { z } from 'zod'
 
+// ============================================================
+// GET BLOG CATEGORIES (for dropdowns)
+// ============================================================
+
+export async function getBlogCategories(): Promise<ActionResult<BlogCategory[]>> {
+  try {
+    const categories = await prisma.blogCategory.findMany({
+      orderBy: { name: 'asc' },
+    })
+    return { success: true, data: categories }
+  } catch (error) {
+    return handleActionError(error)
+  }
+}
+
 const blogPostSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   slug: z.string().min(1, 'Slug is required'),
@@ -22,6 +37,8 @@ const blogPostSchema = z.object({
   featuredImage: z.string().optional(),
   categoryId: z.string().optional().nullable(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
+  seoTitle: z.string().optional(),
+  seoDescription: z.string().optional(),
 })
 
 export async function getBlogPosts(params: PaginationParams): Promise<ActionResult<PaginatedResult<BlogPost & { category: BlogCategory | null }>>> {

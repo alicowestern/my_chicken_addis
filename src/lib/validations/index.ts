@@ -42,6 +42,7 @@ export const createBirdProductSchema = z.object({
   status: z.enum(['AVAILABLE', 'LIMITED', 'SOLD_OUT', 'UPCOMING', 'ARCHIVED']).default('AVAILABLE'),
   pickupInfo: z.string().optional(),
   deliveryInfo: z.string().optional(),
+  image: z.string().url('Must be a valid URL').optional().or(z.literal('')),
 })
 
 export const updateBirdProductSchema = createBirdProductSchema.partial()
@@ -62,6 +63,7 @@ export const createFeedProductSchema = z.object({
   reorderLevel: z.coerce.number().int().min(0).default(10),
   supplier: z.string().optional(),
   status: z.enum(['AVAILABLE', 'LOW_STOCK', 'OUT_OF_STOCK', 'DISCONTINUED', 'ARCHIVED']).default('AVAILABLE'),
+  image: z.string().url('Must be a valid URL').optional().or(z.literal('')),
 })
 
 export const updateFeedProductSchema = createFeedProductSchema.partial()
@@ -113,6 +115,7 @@ export const createTrainingCourseSchema = z.object({
   price: z.coerce.number().min(0).optional(),
   capacity: z.coerce.number().int().positive().optional(),
   status: z.enum(['ACTIVE', 'DRAFT', 'COMPLETED', 'ARCHIVED']).default('DRAFT'),
+  image: z.string().url('Must be a valid URL').optional().or(z.literal('')),
 })
 
 export const updateTrainingCourseSchema = createTrainingCourseSchema.partial()
@@ -173,6 +176,7 @@ export const createBlogPostSchema = z.object({
   title: z.string().min(2, 'Title is required'),
   excerpt: z.string().optional(),
   content: z.string().optional(),
+  featuredImage: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   categoryId: z.string().optional(),
   status: z.enum(['DRAFT', 'SCHEDULED', 'PUBLISHED', 'ARCHIVED']).default('DRAFT'),
   seoTitle: z.string().optional(),
@@ -194,6 +198,7 @@ export const createEventSchema = z.object({
   endTime: z.string().optional(),
   location: z.string().optional(),
   organizer: z.string().optional(),
+  featuredImage: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   status: z.enum(['UPCOMING', 'ONGOING', 'COMPLETED', 'CANCELLED']).default('UPCOMING'),
 })
 

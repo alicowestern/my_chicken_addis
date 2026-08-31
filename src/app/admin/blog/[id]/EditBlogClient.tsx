@@ -1,19 +1,32 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Save } from 'lucide-react'
+import { ArrowLeft, Save, ImageIcon } from 'lucide-react'
 import toast from 'react-hot-toast'
 import Button from '@/components/ui/Button'
 import Textarea from '@/components/ui/Textarea'
 import Select from '@/components/ui/Select'
-import { updateBlogPost } from '@/lib/actions/blog'
+import Input from '@/components/ui/Input'
+import { updateBlogPost, getBlogCategories } from '@/lib/actions/blog'
 import type { BlogPost } from '@prisma/client'
 
 export default function EditBlogClient({ post }: { post: BlogPost }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [categories, setCategories] = useState<{ value: string; label: string }[]>([])
+  const [imagePreview, setImagePreview] = useState(post.featuredImage || '')
+
+  useEffect(() => {
+    getBlogCategories().then((result) => {
+      if (result.success && result.data) {
+        setCategories(
+          result.data.map((c) => ({ value: c.id, label: c.name }))
+        )
+      }
+    })
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -74,6 +87,15 @@ export default function EditBlogClient({ post }: { post: BlogPost }) {
           </div>
 
           <div className="space-y-2">
+            <label className="block text-sm font-medium text-brand-white">Category</label>
+            <Select
+              name="categoryId"
+              defaultValue={post.categoryId || ''}
+              options={[{ value: '', label: 'No Category' }, ...categories]}
+            />
+          </div>
+
+          <div className="space-y-2">
             <label className="block text-sm font-medium text-brand-white">Status *</label>
             <Select 
               name="status" 
@@ -84,6 +106,26 @@ export default function EditBlogClient({ post }: { post: BlogPost }) {
                 {value: "ARCHIVED", label: "Archived"}
               ]} 
             />
+          </div>
+
+          {/* Featured Image URL */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-brand-white">
+              <span className="flex items-center gap-2"><ImageIcon className="w-4 h-4 text-brand-cyan" /> Featured Image URL</span>
+            </label>
+            <input 
+              type="url" 
+              name="featuredImage" 
+              defaultValue={post.featuredImage || ''}
+              className="w-full bg-brand-dark border border-white/10 rounded-md px-4 py-2 text-brand-white focus:outline-none focus:border-brand-cyan"
+              placeholder="https://example.com/image.jpg"
+              onChange={(e) => setImagePreview(e.target.value)}
+            />
+            {imagePreview && (
+              <div className="mt-2 rounded-lg overflow-hidden border border-white/10 max-w-xs">
+                <img src={imagePreview} alt="Preview" className="w-full h-32 object-cover" onError={() => setImagePreview('')} />
+              </div>
+            )}
           </div>
 
           <div className="space-y-2 md:col-span-2">
@@ -102,6 +144,18 @@ export default function EditBlogClient({ post }: { post: BlogPost }) {
               defaultValue={post.content || ''}
               rows={15}
             />
+          </div>
+        </div>
+
+        {/* SEO Section */}
+        <div className="border-t border-white/10 pt-6 space-y-4">
+          <h3 className="text-lg font-semibold text-brand-white">SEO Settings</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Input label="SEO Title" name="seoTitle" defaultValue={post.seoTitle || ''} placeholder="Custom title for search engines" />
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-brand-white">SEO Description</label>
+              <Textarea name="seoDescription" defaultValue={post.seoDescription || ''} rows={2} placeholder="Meta description for search engines" />
+            </div>
           </div>
         </div>
 

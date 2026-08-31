@@ -62,6 +62,7 @@ export default function NewBirdProductPage() {
           <Textarea label="Description" name="description" placeholder="Describe this bird product..." rows={3} />
           <Textarea label="Pickup Information" name="pickupInfo" placeholder="Pickup location and instructions..." rows={2} />
           <Textarea label="Delivery Information" name="deliveryInfo" placeholder="Delivery area and pricing..." rows={2} />
+          <Input label="Product Image URL" name="image" type="url" placeholder="https://example.com/bird-image.jpg" />
 
           <div className="flex gap-4 pt-4">
             <Button type="submit" loading={loading} className="rounded-full">Create Product</Button>

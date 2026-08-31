@@ -73,6 +73,8 @@ export default function NewTrainingCoursePage() {
           />
         </div>
 
+        <Input label="Course Image URL" name="image" type="url" placeholder="https://example.com/training-image.jpg" />
+
         <div className="flex justify-end gap-3 pt-4 border-t border-[rgba(255,255,255,0.05)]">
           <Link href="/admin/training">
             <Button variant="ghost" type="button">Cancel</Button>

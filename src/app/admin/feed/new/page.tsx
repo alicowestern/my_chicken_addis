@@ -60,6 +60,7 @@ export default function NewFeedProductPage() {
             ]} />
           </div>
           <Textarea label="Description" name="description" placeholder="Describe this feed product..." rows={3} />
+          <Input label="Product Image URL" name="image" type="url" placeholder="https://example.com/feed-image.jpg" />
           <div className="flex gap-4 pt-4">
             <Button type="submit" loading={loading} className="rounded-full">Create Product</Button>
             <Link href="/admin/feed"><Button variant="ghost" type="button" className="rounded-full">Cancel</Button></Link>
