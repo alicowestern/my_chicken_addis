@@ -10,6 +10,8 @@ import {
   submitEventRegistrationSchema,
 } from '@/lib/validations'
 import type { Lead, BirdOrder, TrainingRegistration, FinancingApplication, EventRegistration } from '@prisma/client'
+import { sendEmail } from '@/lib/email/resend'
+import OrderConfirmationEmail from '@/lib/email/templates/OrderConfirmationEmail'
 
 // ============================================================
 // CONTACT FORM → Creates a Lead
@@ -111,6 +113,19 @@ export async function submitBirdOrder(formData: FormData): Promise<ActionResult<
 
       return birdOrder
     })
+
+    // Send Email Notification
+    if (data.customerEmail) {
+      await sendEmail({
+        to: data.customerEmail,
+        subject: `Order Received - ${order.orderNumber}`,
+        react: OrderConfirmationEmail({
+          customerName: data.customerName,
+          orderNumber: order.orderNumber,
+          totalAmount: Number(order.totalAmount),
+        }),
+      })
+    }
 
     return { success: true, data: order }
   } catch (error) {

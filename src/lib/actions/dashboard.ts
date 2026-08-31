@@ -125,3 +125,73 @@ export async function getRecentLeads(limit = 5): Promise<RecentLead[]> {
     return []
   }
 }
+
+export type SalesChartData = {
+  date: string
+  sales: number
+}
+
+export type FarmerChartData = {
+  status: string
+  count: number
+}
+
+export async function getSalesChartData(): Promise<{success: boolean, data?: SalesChartData[], error?: string}> {
+  try {
+    await requirePermission('dashboard:read')
+    
+    // Get last 7 days of completed orders grouped by date
+    const orders = await prisma.birdOrder.findMany({
+      where: {
+        deletedAt: null,
+        status: 'COMPLETED',
+        orderDate: {
+          gte: new Date(new Date().setDate(new Date().getDate() - 7))
+        }
+      },
+      select: {
+        orderDate: true,
+        totalAmount: true
+      }
+    })
+    
+    // Group by date (simple approach)
+    const grouped = orders.reduce((acc, order) => {
+      const dateStr = order.orderDate.toISOString().split('T')[0]
+      acc[dateStr] = (acc[dateStr] || 0) + Number(order.totalAmount || 0)
+      return acc
+    }, {} as Record<string, number>)
+    
+    const data: SalesChartData[] = Object.keys(grouped).sort().map(date => ({
+      date,
+      sales: grouped[date]
+    }))
+
+    return { success: true, data }
+  } catch (error) {
+    return { success: false, error: 'Failed to fetch sales chart data' }
+  }
+}
+
+export async function getFarmerChartData(): Promise<{success: boolean, data?: FarmerChartData[], error?: string}> {
+  try {
+    await requirePermission('dashboard:read')
+    
+    const farmers = await prisma.farmer.groupBy({
+      by: ['status'],
+      where: { deletedAt: null },
+      _count: {
+        id: true
+      }
+    })
+    
+    const data = farmers.map(f => ({
+      status: f.status,
+      count: f._count.id
+    }))
+
+    return { success: true, data }
+  } catch (error) {
+    return { success: false, error: 'Failed to fetch farmer chart data' }
+  }
+}

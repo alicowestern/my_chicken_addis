@@ -1,16 +1,22 @@
 import { StatCard } from '@/components/ui/index'
 import { Users, Bird, Wheat, DollarSign, MessageSquare, ArrowRight } from 'lucide-react'
-import { getDashboardStats, getRecentOrders, getRecentLeads } from '@/lib/actions/dashboard'
+import { getDashboardStats, getRecentOrders, getRecentLeads, getSalesChartData, getFarmerChartData } from '@/lib/actions/dashboard'
+import AnalyticsCharts from '@/components/admin/AnalyticsCharts'
 import Badge from '@/components/ui/Badge'
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 
 export default async function AdminDashboard() {
-  const [stats, recentOrders, recentLeads] = await Promise.all([
+  const [stats, recentOrders, recentLeads, salesRes, farmerRes] = await Promise.all([
     getDashboardStats(),
     getRecentOrders(),
     getRecentLeads(),
+    getSalesChartData(),
+    getFarmerChartData()
   ])
+  
+  const salesData = salesRes.success && salesRes.data ? salesRes.data : []
+  const farmerData = farmerRes.success && farmerRes.data ? farmerRes.data : []
 
   const orderStatusBadge: Record<string, 'success' | 'info' | 'warning' | 'error' | 'draft'> = {
     NEW: 'info',
@@ -76,8 +82,10 @@ export default async function AdminDashboard() {
         </Link>
       </div>
 
+      <AnalyticsCharts salesData={salesData} farmerData={farmerData} />
+
       {/* Recent Activity Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-8">
         {/* Recent Orders */}
         <div className="bg-brand-surface rounded-xl border border-[rgba(255,255,255,0.05)] overflow-hidden">
           <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-[rgba(255,255,255,0.05)] bg-brand-dark flex items-center justify-between">

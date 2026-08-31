@@ -1,38 +1,62 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { auth } from '@/lib/auth/auth'
 
-// Protected route patterns
-const protectedRoutes = ['/admin', '/farmer']
+const adminRoutes = ['/admin']
+const financeRoutes = ['/admin/financing']
+const trainingRoutes = ['/admin/training']
+const contentRoutes = ['/admin/blog', '/admin/events', '/admin/gallery', '/admin/testimonials', '/admin/faqs']
 const authRoutes = ['/auth/login', '/auth/register']
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Check if the route is protected
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    pathname.startsWith(route)
-  )
-
   // Check if the route is an auth route
-  const isAuthRoute = authRoutes.some((route) =>
-    pathname.startsWith(route)
-  )
+  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route))
 
-  // Get session token from cookies (NextAuth.js v5 cookie names)
-  const sessionToken =
-    request.cookies.get('authjs.session-token')?.value ||
-    request.cookies.get('__Secure-authjs.session-token')?.value
-
-  // Redirect to login if accessing protected route without session
-  if (isProtectedRoute && !sessionToken) {
-    const loginUrl = new URL('/auth/login', request.url)
-    loginUrl.searchParams.set('callbackUrl', pathname)
-    return NextResponse.redirect(loginUrl)
-  }
+  // Try to get the session using next-auth
+  // @ts-ignore - auth might need request object depending on NextAuth version setup
+  const session = await auth()
 
   // Redirect to dashboard if accessing auth routes while logged in
-  if (isAuthRoute && sessionToken) {
+  if (isAuthRoute && session) {
     return NextResponse.redirect(new URL('/admin', request.url))
+  }
+
+  const isAdminRoute = adminRoutes.some((route) => pathname.startsWith(route))
+
+  if (isAdminRoute) {
+    if (!session) {
+      const loginUrl = new URL('/auth/login', request.url)
+      loginUrl.searchParams.set('callbackUrl', pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+
+    const userRole = session.user?.role
+
+    // Role-based access control
+    if (financeRoutes.some(route => pathname.startsWith(route))) {
+      if (userRole !== 'SUPER_ADMIN' && userRole !== 'FINANCE_OFFICER') {
+        return NextResponse.redirect(new URL('/admin', request.url))
+      }
+    }
+
+    if (trainingRoutes.some(route => pathname.startsWith(route))) {
+      if (userRole !== 'SUPER_ADMIN' && userRole !== 'TRAINING_MANAGER') {
+        return NextResponse.redirect(new URL('/admin', request.url))
+      }
+    }
+
+    if (contentRoutes.some(route => pathname.startsWith(route))) {
+      if (userRole !== 'SUPER_ADMIN' && userRole !== 'CONTENT_MANAGER') {
+        return NextResponse.redirect(new URL('/admin', request.url))
+      }
+    }
+    
+    // Regular farmers shouldn't access admin
+    if (userRole === 'FARMER' && pathname.startsWith('/admin')) {
+        return NextResponse.redirect(new URL('/', request.url))
+    }
   }
 
   return NextResponse.next()
@@ -41,7 +65,6 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/admin/:path*',
-    '/farmer/:path*',
     '/auth/:path*',
   ],
 }
