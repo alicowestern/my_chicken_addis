@@ -6,12 +6,9 @@ import { prisma } from '@/lib/database/prisma'
 import { authConfig } from './auth.config'
 
 // Force NextAuth to use this exact URL to prevent Invalid URL parsing crashes on Vercel
-if (!process.env.AUTH_URL) {
-  process.env.AUTH_URL = 'https://my-chicken-addis-chi.vercel.app'
-}
-if (!process.env.NEXTAUTH_URL) {
-  process.env.NEXTAUTH_URL = 'https://my-chicken-addis-chi.vercel.app'
-}
+// even if the user accidentally pasted the wrong value into Vercel Dashboard
+process.env.AUTH_URL = 'https://my-chicken-addis-chi.vercel.app'
+process.env.NEXTAUTH_URL = 'https://my-chicken-addis-chi.vercel.app'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
