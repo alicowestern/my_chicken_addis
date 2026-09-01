@@ -22,14 +22,14 @@ export default auth((request) => {
 
   // Redirect to dashboard if accessing auth routes while logged in
   if (isAuthRoute && session) {
-    return NextResponse.redirect(new URL('/admin', request.url))
+    return NextResponse.redirect(new URL('/admin', request.nextUrl))
   }
 
   const isAdminRoute = adminRoutes.some((route) => pathname.startsWith(route))
 
   if (isAdminRoute) {
     if (!session) {
-      const loginUrl = new URL('/auth/login', request.url)
+      const loginUrl = new URL('/auth/login', request.nextUrl)
       loginUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(loginUrl)
     }
@@ -39,25 +39,25 @@ export default auth((request) => {
     // Role-based access control
     if (financeRoutes.some(route => pathname.startsWith(route))) {
       if (userRole !== 'SUPER_ADMIN' && userRole !== 'FINANCE_OFFICER') {
-        return NextResponse.redirect(new URL('/admin', request.url))
+        return NextResponse.redirect(new URL('/admin', request.nextUrl))
       }
     }
 
     if (trainingRoutes.some(route => pathname.startsWith(route))) {
       if (userRole !== 'SUPER_ADMIN' && userRole !== 'TRAINING_MANAGER') {
-        return NextResponse.redirect(new URL('/admin', request.url))
+        return NextResponse.redirect(new URL('/admin', request.nextUrl))
       }
     }
 
     if (contentRoutes.some(route => pathname.startsWith(route))) {
       if (userRole !== 'SUPER_ADMIN' && userRole !== 'CONTENT_MANAGER') {
-        return NextResponse.redirect(new URL('/admin', request.url))
+        return NextResponse.redirect(new URL('/admin', request.nextUrl))
       }
     }
 
     // Regular farmers shouldn't access admin
     if (userRole === 'FARMER' && pathname.startsWith('/admin')) {
-      return NextResponse.redirect(new URL('/', request.url))
+      return NextResponse.redirect(new URL('/', request.nextUrl))
     }
   }
 
