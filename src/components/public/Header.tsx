@@ -63,7 +63,7 @@ export default function Header() {
     closeMobileMenu()
   }, [pathname, closeMobileMenu])
 
-  return (
+    return (
     <header className="sticky top-0 inset-x-0 z-50 bg-brand-dark-deep/95 backdrop-blur-md border-b border-[rgba(255,255,255,0.05)] shadow-soft">
       <div className="container-main">
         <div className="flex items-center justify-between h-16 sm:h-20 md:h-24">
@@ -159,64 +159,64 @@ export default function Header() {
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        <div
-          className={`
-            lg:hidden fixed inset-0 z-40 bg-brand-dark-deep/98 backdrop-blur-xl
-            transform transition-all duration-300 ease-in-out
-            ${mobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'}
-          `}
-        >
-          <nav className="pt-20 px-6 pb-6 h-full overflow-y-auto">
-            <div className="flex flex-col gap-5">
-              {navigation.map((item) => (
-                <div key={item.name}>
-                  {item.children ? (
-                    <div className="flex flex-col gap-3">
-                      <div className="text-brand-muted font-medium text-xs tracking-widest uppercase">{item.name}</div>
-                      <div className="flex flex-col gap-3 pl-4 border-l border-[rgba(255,255,255,0.1)]">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.name}
-                            href={child.href}
-                            onClick={closeMobileMenu}
-                            className={`
-                              text-lg font-medium transition-colors duration-200
-                              ${isActive(child.href) ? 'text-brand-cyan' : 'text-brand-white hover:text-brand-cyan'}
-                            `}
-                          >
-                            {child.name}
-                          </Link>
-                        ))}
-                      </div>
+      {/* Mobile Navigation — sits outside container-main so it's not clipped */}
+      <div
+        className={`
+          lg:hidden fixed inset-0 z-40 bg-brand-dark-deep/98 backdrop-blur-xl
+          transform transition-all duration-300 ease-in-out
+          ${mobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'}
+        `}
+      >
+        <nav className="pt-20 px-6 pb-6 h-full overflow-y-auto">
+          <div className="flex flex-col gap-5">
+            {navigation.map((item) => (
+              <div key={item.name}>
+                {item.children ? (
+                  <div className="flex flex-col gap-3">
+                    <div className="text-text-muted font-medium text-xs tracking-widest uppercase">{item.name}</div>
+                    <div className="flex flex-col gap-3 pl-4 border-l border-[rgba(255,255,255,0.1)]">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.name}
+                          href={child.href}
+                          onClick={closeMobileMenu}
+                          className={`
+                            text-lg font-medium transition-colors duration-200
+                            ${isActive(child.href) ? 'text-brand-cyan' : 'text-brand-white hover:text-brand-cyan'}
+                          `}
+                        >
+                          {child.name}
+                        </Link>
+                      ))}
                     </div>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      onClick={closeMobileMenu}
-                      className={`
-                        text-lg font-medium transition-colors duration-200 block
-                        ${isActive(item.href) || isChildActive(item.children) ? 'text-brand-cyan' : 'text-brand-white hover:text-brand-cyan'}
-                      `}
-                    >
-                      {item.name}
-                    </Link>
-                  )}
-                </div>
-              ))}
-              <div className="pt-5 border-t border-[rgba(255,255,255,0.05)] mt-3">
-                <Link
-                  href="/contact"
-                  onClick={closeMobileMenu}
-                  className="block w-full text-center py-3.5 bg-gradient-brand text-gray-900 font-bold rounded-xl text-base"
-                >
-                  Talk to Us
-                </Link>
+                  </div>
+                ) : (
+                  <Link
+                    href={item.href}
+                    onClick={closeMobileMenu}
+                    className={`
+                      text-lg font-medium transition-colors duration-200 block
+                      ${isActive(item.href) || isChildActive(item.children) ? 'text-brand-cyan' : 'text-brand-white hover:text-brand-cyan'}
+                    `}
+                  >
+                    {item.name}
+                  </Link>
+                )}
               </div>
+            ))}
+            <div className="pt-5 border-t border-[rgba(255,255,255,0.05)] mt-3">
+              <Link
+                href="/contact"
+                onClick={closeMobileMenu}
+                className="block w-full text-center py-3.5 bg-gradient-brand text-gray-900 font-bold rounded-xl text-base"
+              >
+                Talk to Us
+              </Link>
             </div>
-          </nav>
-        </div>
+          </div>
+        </nav>
       </div>
     </header>
   )
