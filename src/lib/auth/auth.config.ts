@@ -17,6 +17,7 @@ export const authConfig = {
   session: {
     strategy: 'jwt',
     maxAge: 1 * 60 * 60, // 1 hour expiration
+  },
   secret: 'SZYaqi2PoaOlsBLjIH1HMIAmWDniwiZ0vBjGsderPII',
   trustHost: true,
   pages: {
