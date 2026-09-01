@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { auth } from '@/lib/auth/auth'
+import NextAuth from 'next-auth'
+import { authConfig } from '@/lib/auth/auth.config'
+
+const { auth } = NextAuth(authConfig)
 
 const adminRoutes = ['/admin']
 const financeRoutes = ['/admin/financing']
@@ -8,15 +11,14 @@ const trainingRoutes = ['/admin/training']
 const contentRoutes = ['/admin/blog', '/admin/events', '/admin/gallery', '/admin/testimonials', '/admin/faqs']
 const authRoutes = ['/auth/login', '/auth/register']
 
-export async function middleware(request: NextRequest) {
+export default auth((request) => {
   const { pathname } = request.nextUrl
 
   // Check if the route is an auth route
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route))
 
-  // Try to get the session using next-auth
-  // @ts-ignore - auth might need request object depending on NextAuth version setup
-  const session = await auth()
+  // Try to get the session from NextAuth
+  const session = request.auth
 
   // Redirect to dashboard if accessing auth routes while logged in
   if (isAuthRoute && session) {
@@ -52,15 +54,15 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/admin', request.url))
       }
     }
-    
+
     // Regular farmers shouldn't access admin
     if (userRole === 'FARMER' && pathname.startsWith('/admin')) {
-        return NextResponse.redirect(new URL('/', request.url))
+      return NextResponse.redirect(new URL('/', request.url))
     }
   }
 
   return NextResponse.next()
-}
+})
 
 export const config = {
   matcher: [
