@@ -168,30 +168,30 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation (Dropdown) */}
       <div
         className={`
-          lg:hidden fixed inset-0 z-40 bg-white/98 backdrop-blur-xl
-          transform transition-all duration-300 ease-in-out
-          ${mobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'}
+          lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg border-b border-brand-gray-200
+          transition-all duration-300 ease-in-out origin-top z-40
+          ${mobileMenuOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'}
         `}
       >
-        <nav className="pt-24 px-6 pb-6 h-full overflow-y-auto">
-          <div className="flex flex-col gap-6">
+        <nav className="px-6 py-6 max-h-[80vh] overflow-y-auto">
+          <div className="flex flex-col gap-4">
             {navigation.map((item) => (
               <div key={item.name}>
                 {item.children ? (
-                  <div className="flex flex-col gap-3">
-                    <div className="text-brand-muted font-medium text-xs tracking-widest uppercase">{item.name}</div>
-                    <div className="flex flex-col gap-3 pl-4 border-l border-brand-gray-200">
+                  <div className="flex flex-col gap-2">
+                    <div className="text-brand-gray-500 font-bold text-xs tracking-widest uppercase">{item.name}</div>
+                    <div className="flex flex-col gap-2 pl-3 border-l-2 border-brand-gray-100">
                       {item.children.map((child) => (
                         <Link
                           key={child.name}
                           href={child.href}
                           onClick={closeMobileMenu}
                           className={`
-                            text-lg font-medium transition-colors duration-200
-                            ${isActive(child.href) ? 'text-brand-cyan-dark' : 'text-brand-gray-900 hover:text-brand-cyan-dark'}
+                            text-base font-medium py-1 transition-colors duration-200
+                            ${isActive(child.href) ? 'text-brand-cyan-dark' : 'text-brand-gray-700 hover:text-brand-cyan-dark'}
                           `}
                         >
                           {child.name}
@@ -204,7 +204,7 @@ export default function Header() {
                     href={item.href}
                     onClick={closeMobileMenu}
                     className={`
-                      text-lg font-medium transition-colors duration-200 block
+                      text-base font-medium transition-colors duration-200 block py-1
                       ${isActive(item.href) || isChildActive(item.children) ? 'text-brand-cyan-dark' : 'text-brand-gray-900 hover:text-brand-cyan-dark'}
                     `}
                   >
@@ -213,11 +213,11 @@ export default function Header() {
                 )}
               </div>
             ))}
-            <div className="pt-6 border-t border-brand-gray-200 mt-4">
+            <div className="pt-4 border-t border-brand-gray-100 mt-2">
               <Link
                 href="/contact"
                 onClick={closeMobileMenu}
-                className="block w-full text-center py-4 bg-brand-gray-900 text-white font-bold rounded-xl text-base shadow-sm hover:brightness-110 transition-all"
+                className="block w-full text-center py-3 bg-brand-gray-900 text-white font-bold rounded-xl text-sm shadow-sm hover:bg-brand-cyan-dark transition-all"
               >
                 Get Started
               </Link>
