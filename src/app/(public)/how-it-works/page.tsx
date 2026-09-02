@@ -21,8 +21,8 @@ export default function HowItWorksPage() {
 
   return (
     <>
-      <section className="relative py-16 bg-brand-dark-deep overflow-hidden border-b border-[rgba(255,255,255,0.05)]">
-        <div className="container-main relative z-10 flex flex-col items-center text-center">
+      <section className="relative py-16 bg-brand-bg overflow-hidden border-b border-brand-gray-200">
+        <div className="container-main relative z-10 page-hero">
           <div className="max-w-3xl mx-auto">
             <SectionHeader
               as="h1"
@@ -34,17 +34,17 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <section className="section-padding bg-brand-dark">
+      <section className="section-padding bg-white">
         <div className="container-main">
           <div className="max-w-3xl mx-auto space-y-6">
             {steps.map((step) => (
-              <div key={step.num} className="flex gap-6 items-start bg-brand-surface p-6 rounded-xl border border-[rgba(255,255,255,0.05)]">
+              <div key={step.num} className="flex gap-6 items-start bg-white p-6 rounded-xl border border-brand-gray-200">
                 <div className="w-14 h-14 bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan rounded-full flex items-center justify-center flex-shrink-0 font-bold text-lg font-heading">
                   {step.num}
                 </div>
                 <div className="pt-2">
-                  <h3 className="font-bold text-brand-white text-xl mb-1">{step.title}</h3>
-                  <p className="text-brand-light-gray text-sm">{step.desc}</p>
+                  <h3 className="font-bold text-brand-gray-900 text-xl mb-1">{step.title}</h3>
+                  <p className="text-brand-gray-600 text-sm">{step.desc}</p>
                 </div>
               </div>
             ))}

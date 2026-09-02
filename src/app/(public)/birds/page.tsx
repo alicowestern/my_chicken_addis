@@ -17,16 +17,19 @@ export default async function BirdsPage() {
 
   return (
     <>
-      <section className="relative py-16 bg-brand-dark-deep overflow-hidden border-b border-[rgba(255,255,255,0.05)]">
-        <div className="container-main relative z-10 flex flex-col items-center text-center">
+      {/* Hero Section */}
+      <section className="relative py-20 lg:py-24 bg-brand-gray-50 overflow-hidden border-b border-brand-gray-200">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-0 right-0 w-full h-full bg-pattern opacity-30" />
+        </div>
+        <div className="container-main relative z-10 page-hero">
           <div className="max-w-3xl mx-auto">
-            <SectionHeader
-              as="h1"
-              label="Premium Poultry"
-              title="Quality 45-Day Birds"
-              description="Our broilers are bred for optimal health, fast growth, and high meat yield. Ready for the market in exactly 45 days."
-            />
-            <div className="flex flex-wrap justify-center gap-4 mt-8">
+            <p className="text-brand-cyan-dark font-bold tracking-widest text-sm uppercase mb-4">Premium Poultry</p>
+            <h1 className="mb-6 text-center text-brand-gray-900">Quality 45-Day Birds</h1>
+            <p className="text-lg sm:text-xl text-brand-gray-600 leading-relaxed font-light text-center">
+              Our broilers are bred for optimal health, fast growth, and high meat yield. Ready for the market in exactly 45 days.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 mt-10">
               <a href="#order-form">
                 <Button size="lg" className="rounded-full">Request Birds</Button>
               </a>
@@ -38,11 +41,12 @@ export default async function BirdsPage() {
         </div>
       </section>
 
-      <section className="section-padding bg-brand-dark">
+      {/* Why Choose Us */}
+      <section className="section-padding bg-white">
         <div className="container-main">
-          <div className="mb-16 flex flex-col items-center text-center mx-auto">
-            <h2 className="mb-6" style={{ textAlign: 'center' }}>Why Choose Our Birds?</h2>
-            <p className="subheading max-w-2xl" style={{ textAlign: 'center' }}>
+          <div className="mb-16 page-hero mx-auto">
+            <h2 className="mb-4 text-center">Why Choose Our Birds?</h2>
+            <p className="subheading max-w-2xl text-center">
               We source and raise our chicks with strict adherence to quality and biosecurity standards.
             </p>
           </div>
@@ -70,26 +74,26 @@ export default async function BirdsPage() {
                 description: 'Backed by our experts to ensure your flock stays healthy throughout the cycle.',
               },
             ].map((feature) => (
-              <div key={feature.title} className="bg-brand-surface p-8 rounded-xl border border-[rgba(255,255,255,0.05)] hover:border-brand-cyan/30 transition-colors">
-                <div className="w-14 h-14 rounded-full bg-brand-cyan/10 flex items-center justify-center text-brand-cyan mb-6">
+              <div key={feature.title} className="bg-brand-gray-50 p-8 rounded-xl border border-brand-gray-200 transition-all hover:-translate-y-1 hover:shadow-md">
+                <div className="w-14 h-14 rounded-full bg-brand-cyan-dim flex items-center justify-center text-brand-cyan-dark mb-6">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-brand-white mb-3">{feature.title}</h3>
-                <p className="text-brand-muted text-sm leading-relaxed">{feature.description}</p>
+                <h3 className="text-xl font-bold text-brand-gray-900 mb-3">{feature.title}</h3>
+                <p className="text-brand-gray-600 text-sm leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
           
-          <div id="order-form" className="scroll-mt-24 max-w-4xl mx-auto bg-brand-surface rounded-2xl p-8 border border-[rgba(255,255,255,0.05)] shadow-card">
-            <h3 className="text-2xl font-bold font-heading text-brand-white mb-2">Request Bird Order</h3>
-            <p className="text-brand-muted text-sm mb-8">Fill out the form below to request a bird order. Our team will contact you to confirm details.</p>
+          <div id="order-form" className="scroll-mt-24 max-w-4xl mx-auto bg-white rounded-2xl p-8 sm:p-12 border border-brand-gray-200 shadow-lg">
+            <h3 className="text-3xl font-bold font-heading text-brand-gray-900 mb-3">Request Bird Order</h3>
+            <p className="text-brand-gray-600 mb-10">Fill out the form below to request a bird order. Our team will contact you to confirm details.</p>
             <BirdOrderForm products={products} />
           </div>
         </div>
       </section>
 
       {/* Cycle Section */}
-      <section className="section-padding bg-brand-dark-deep border-t border-[rgba(255,255,255,0.05)]">
+      <section className="section-padding bg-brand-gray-50 border-t border-brand-gray-200">
         <div className="container-main">
           <SectionHeader
             label="Growth Cycle"
@@ -97,20 +101,20 @@ export default async function BirdsPage() {
             description="A proven timeline for optimal growth and profitability."
           />
           
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto mt-12">
             <div className="space-y-6">
               {[
                 { days: 'Days 1-14', title: 'Brooding & Starter Phase', desc: 'Critical early development requiring strict temperature control and highly nutritious starter feed.' },
                 { days: 'Days 15-28', title: 'Grower Phase', desc: 'Rapid skeletal and muscle development phase fueled by our specially formulated grower feed.' },
                 { days: 'Days 29-45', title: 'Finisher Phase', desc: 'Final weight gain and fat deposition phase preparing the birds for market.' },
               ].map((stage, idx) => (
-                <div key={idx} className="flex gap-6 items-start bg-brand-surface p-6 rounded-xl border border-[rgba(255,255,255,0.05)]">
-                  <div className="w-24 flex-shrink-0 pt-1">
-                    <span className="text-brand-cyan font-bold text-sm tracking-widest uppercase">{stage.days}</span>
+                <div key={idx} className="flex flex-col sm:flex-row gap-6 items-start sm:items-center bg-white p-6 sm:p-8 rounded-xl border border-brand-gray-200 shadow-sm transition-all hover:shadow-md">
+                  <div className="w-32 flex-shrink-0">
+                    <span className="inline-block bg-brand-cyan-dim text-brand-cyan-dark font-bold text-sm tracking-widest uppercase px-4 py-2 rounded-full">{stage.days}</span>
                   </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-brand-white mb-2">{stage.title}</h4>
-                    <p className="text-brand-muted text-sm">{stage.desc}</p>
+                  <div className="page-hero sm:items-start sm:text-left">
+                    <h4 className="text-xl font-bold text-brand-gray-900 mb-2">{stage.title}</h4>
+                    <p className="text-brand-gray-600">{stage.desc}</p>
                   </div>
                 </div>
               ))}

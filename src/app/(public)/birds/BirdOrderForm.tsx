@@ -84,8 +84,8 @@ export default function BirdOrderForm({ products }: { products: AvailableBirdPro
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="text-xl font-bold text-brand-white mb-2">Request Received!</h3>
-        <p className="text-brand-muted text-sm">We've received your order request. A representative will contact you shortly to confirm availability and payment details.</p>
+        <h3 className="text-xl font-bold text-brand-gray-900 mb-2">Request Received!</h3>
+        <p className="text-brand-gray-500 text-sm">We've received your order request. A representative will contact you shortly to confirm availability and payment details.</p>
       </div>
     )
   }
@@ -106,17 +106,17 @@ export default function BirdOrderForm({ products }: { products: AvailableBirdPro
       </div>
 
       {/* Order Items */}
-      <div className="pt-4 border-t border-[rgba(255,255,255,0.05)]">
+      <div className="pt-4 border-t border-brand-gray-200">
         <div className="flex items-center justify-between mb-4">
-          <label className="block text-sm font-medium text-brand-light-gray">Order Items <span className="text-error">*</span></label>
+          <label className="block text-sm font-medium text-brand-gray-600">Order Items <span className="text-error">*</span></label>
           <Button type="button" size="sm" variant="secondary" onClick={addItem} icon={<Plus className="w-4 h-4" />} className="rounded-full">
             Add Item
           </Button>
         </div>
         
         {items.length === 0 ? (
-          <div className="text-center py-8 border border-dashed border-[rgba(255,255,255,0.1)] rounded-xl mb-4">
-            <p className="text-brand-muted text-sm">No items added to order yet.</p>
+          <div className="text-center py-8 border border-dashed border-brand-gray-200 rounded-xl mb-4">
+            <p className="text-brand-gray-500 text-sm">No items added to order yet.</p>
             <Button type="button" size="sm" variant="ghost" onClick={addItem} className="mt-2 text-brand-cyan">Add an item</Button>
           </div>
         ) : (
@@ -124,7 +124,7 @@ export default function BirdOrderForm({ products }: { products: AvailableBirdPro
             {items.map((item, index) => {
               const product = products.find(p => p.id === item.productId)
               return (
-                <div key={index} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-[rgba(255,255,255,0.02)] p-3 rounded-lg border border-[rgba(255,255,255,0.05)]">
+                <div key={index} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-brand-gray-50 p-3 rounded-lg border border-brand-gray-200">
                   <div className="flex-1 w-full">
                     <Select
                       options={products.map(p => ({ 
@@ -146,7 +146,7 @@ export default function BirdOrderForm({ products }: { products: AvailableBirdPro
                       required
                     />
                   </div>
-                  <button type="button" onClick={() => removeItem(index)} className="p-3 text-brand-muted hover:text-error transition-colors mt-0 sm:mt-0 self-end sm:self-auto">
+                  <button type="button" onClick={() => removeItem(index)} className="p-3 text-brand-gray-500 hover:text-error transition-colors mt-0 sm:mt-0 self-end sm:self-auto">
                     <Trash2 className="w-5 h-5" />
                   </button>
                 </div>

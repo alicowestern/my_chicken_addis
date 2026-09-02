@@ -48,41 +48,40 @@ const coreServices = [
 export default function ServicesPage() {
   return (
     <>
-      <section className="relative py-16 bg-brand-dark-deep overflow-hidden border-b border-[rgba(255,255,255,0.05)]">
+      <section className="relative py-20 lg:py-24 bg-brand-gray-50 overflow-hidden border-b border-brand-gray-200">
         <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[radial-gradient(circle_at_center,rgba(79,195,247,0.05)_0%,transparent_70%)]" />
+          <div className="absolute top-0 right-0 w-full h-full bg-pattern opacity-30" />
         </div>
-        <div className="container-main relative z-10 flex flex-col items-center text-center">
+        <div className="container-main relative z-10 page-hero">
           <div className="max-w-3xl mx-auto">
-            <SectionHeader
-              as="h1"
-              label="Our Ecosystem"
-              title="A Complete Ecosystem for Poultry Success"
-              description="Everything you need to run a profitable poultry farm, provided by a single trusted partner."
-            />
+            <p className="text-brand-cyan-dark font-bold tracking-widest text-sm uppercase mb-4">Our Ecosystem</p>
+            <h1 className="mb-6">A Complete Ecosystem for Poultry Success</h1>
+            <p className="text-lg sm:text-xl text-brand-gray-600 leading-relaxed font-light">
+              Everything you need to run a profitable poultry farm, provided by a single trusted partner.
+            </p>
           </div>
         </div>
       </section>
 
-      <section className="section-padding bg-brand-dark">
+      <section className="section-padding bg-white">
         <div className="container-main">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
             {coreServices.map((service) => (
-              <Card key={service.id} hover className="p-8 lg:p-10 bg-brand-surface border-[rgba(255,255,255,0.05)] group">
+              <Card key={service.id} hover className="p-8 lg:p-10 bg-brand-gray-50 border-brand-gray-200 group">
                 <div className="flex flex-col h-full">
-                  <div className="w-16 h-16 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan mb-8 group-hover:scale-110 transition-transform shadow-glow">
+                  <div className="w-16 h-16 rounded-2xl bg-brand-cyan-dim flex items-center justify-center text-brand-cyan-dark mb-8 transition-colors duration-300 group-hover:bg-brand-cyan-dark group-hover:text-white">
                     {service.icon}
                   </div>
-                  <h3 className="text-2xl font-bold text-brand-white mb-4">{service.title}</h3>
-                  <p className="text-brand-light-gray leading-relaxed mb-8 flex-grow">
+                  <h3 className="text-2xl font-bold text-brand-gray-900 mb-4 group-hover:text-brand-cyan-dark transition-colors">{service.title}</h3>
+                  <p className="text-brand-gray-600 leading-relaxed mb-8 flex-grow">
                     {service.description}
                   </p>
                   
                   <div className="mb-8">
                     <ul className="space-y-3">
                       {service.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-center text-sm text-brand-muted">
-                          <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan mr-3" />
+                        <li key={idx} className="flex items-center text-sm text-brand-gray-600">
+                          <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan-dark mr-3" />
                           {feature}
                         </li>
                       ))}
@@ -90,8 +89,8 @@ export default function ServicesPage() {
                   </div>
 
                   <Link href={service.href}>
-                    <Button variant="secondary" className="w-full sm:w-auto rounded-full group-hover:bg-brand-cyan group-hover:text-brand-dark-deep">
-                      Explore {service.title} <ArrowRight className="w-4 h-4 ml-2" />
+                    <Button variant="secondary" className="w-full sm:w-auto rounded-full group-hover:border-brand-cyan-dark group-hover:text-brand-cyan-dark">
+                      Explore {service.title} <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
                 </div>
@@ -102,16 +101,15 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-brand-dark-deep border-t border-[rgba(255,255,255,0.05)] text-center relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(79,195,247,0.05)_0%,transparent_50%)]" />
-        <div className="container-main relative z-10 flex flex-col items-center text-center">
-          <h2 className="mb-6 max-w-2xl text-center">Ready to Start?</h2>
-          <p className="text-brand-light-gray text-lg mb-10 max-w-xl text-center">
+      <section className="section-padding bg-brand-cyan-dark text-white">
+        <div className="container-main max-w-3xl cta-section">
+          <h2 className="mb-6">Ready to Start?</h2>
+          <p className="text-white/90 text-lg mb-10">
             Contact us today to discuss your farming needs and how our services can help you grow.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="cta-buttons">
             <Link href="/contact">
-              <Button size="lg" className="rounded-full">Talk to Us</Button>
+              <Button variant="light" size="lg" className="rounded-full">Talk to Us</Button>
             </Link>
           </div>
         </div>
@@ -119,5 +117,6 @@ export default function ServicesPage() {
     </>
   )
 }
+
 
 

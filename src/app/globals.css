@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 /* ============================================================
@@ -9,54 +9,57 @@
 @theme {
   /* ---- Core Brand Colors ---- */
   --color-brand-cyan: #4FC3F7;
-  --color-brand-cyan-dim: rgba(79, 195, 247, 0.15);
-  --color-brand-blue: #2296F3;
+  --color-brand-cyan-dark: #01579B;
+  --color-brand-cyan-dim: rgba(79, 195, 247, 0.1);
+  --color-brand-accent: #FFA726; /* Warm accent for calls to action or highlights */
   
   /* ---- Background & Surface Colors ---- */
-  --color-brand-dark: #1E1E1E;
-  --color-brand-dark-deep: #111111;
-  --color-brand-surface: #242424;
-  --color-brand-surface-hover: rgba(79, 195, 247, 0.04);
+  --color-brand-bg: #F9FAFB; /* Off-white, clean modern background */
+  --color-brand-surface: #FFFFFF; /* Pure white cards */
+  --color-brand-surface-alt: #F3F4F6; /* Light gray for secondary sections */
   
   /* ---- Neutral Colors ---- */
-  --color-brand-gray: #424242;
-  --color-brand-light-gray: #E0E0E0;
-  --color-brand-white: #FFFFFF;
+  --color-brand-gray-50: #F9FAFB;
+  --color-brand-gray-100: #F3F4F6;
+  --color-brand-gray-200: #E5E7EB;
+  --color-brand-gray-300: #D1D5DB;
+  --color-brand-gray-800: #1F2937;
+  --color-brand-gray-900: #111827; /* Deep slate, almost black for primary text */
   
   /* ---- Typography Colors ---- */
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #E0E0E0;
-  --color-text-muted: #A8A8A8;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4B5563;
+  --color-text-muted: #6B7280;
 
   /* ---- Semantic Colors ---- */
-  --color-success: #66BB6A;
-  --color-error: #EF5350;
-  --color-warning: #FFA726;
+  --color-success: #10B981;
+  --color-error: #EF4444;
+  --color-warning: #F59E0B;
 
   /* ---- Typography ---- */
   --font-heading: 'Playfair Display', Georgia, serif;
-  --font-body: 'Poppins', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
 
   /* ---- Spacing ---- */
-  --spacing-section: 100px;
+  --spacing-section: 96px;
   --spacing-section-tablet: 80px;
-  --spacing-section-mobile: 60px;
+  --spacing-section-mobile: 64px;
 
   /* ---- Border Radius ---- */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
 
-  /* ---- Shadows & Glows ---- */
-  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.20);
-  --shadow-card: 0 10px 35px rgba(0, 0, 0, 0.25);
-  --shadow-glow: 0 0 25px rgba(79, 195, 247, 0.12);
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
   
   /* ---- Borders ---- */
-  --border-default: 1px solid rgba(255, 255, 255, 0.10);
-  --border-active: 1px solid rgba(79, 195, 247, 0.50);
+  --border-default: 1px solid #E5E7EB;
 }
 
 /* ============================================================
@@ -73,15 +76,15 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--color-brand-dark-deep);
+  background-color: var(--color-brand-bg);
   overflow-x: hidden;
 }
 
 body {
   font-family: var(--font-body);
   color: var(--color-text-secondary);
-  background-color: var(--color-brand-dark);
-  line-height: 1.7;
+  background-color: var(--color-brand-bg);
+  line-height: 1.6;
   overflow-x: hidden;
 }
 
@@ -90,30 +93,30 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
   color: var(--color-text-primary);
+  margin-bottom: 0.5em;
 }
 
-h1 { font-size: clamp(2rem, 5vw, 4rem); text-align: center; }
-h2 { font-size: clamp(1.75rem, 3.5vw, 3rem); text-align: center; }
-h3 { font-size: 1.75rem; }
+h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: -0.02em; }
+h2 { font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.01em; }
+h3 { font-size: 1.5rem; }
 h4 { font-size: 1.25rem; }
 
-/* Subheadings that use sans-serif */
 .subheading {
   font-family: var(--font-body);
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--color-brand-cyan);
-  text-align: center;
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 a {
-  color: var(--color-brand-cyan);
+  color: var(--color-brand-cyan-dark);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
 a:hover {
-  color: var(--color-brand-blue);
+  color: var(--color-brand-cyan);
 }
 
 img {
@@ -127,7 +130,7 @@ img {
 
 :focus-visible {
   outline: 2px solid var(--color-brand-cyan);
-  outline-offset: 3px;
+  outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
@@ -136,26 +139,21 @@ img {
    ============================================================ */
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-brand-dark-deep);
+  background: var(--color-brand-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-brand-gray);
+  background: var(--color-brand-gray-300);
   border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-brand-cyan);
-}
-
-/* Thin scrollbar variant for sidebars/panels */
-.scrollbar-thin::-webkit-scrollbar {
-  width: 4px;
+  background: var(--color-brand-cyan-dark);
 }
 
 /* ============================================================
@@ -167,15 +165,8 @@ img {
   max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-@media (min-width: 1024px) {
-  .container-main {
-    padding-left: 32px;
-    padding-right: 32px;
-  }
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 .section-padding {
@@ -197,71 +188,176 @@ img {
   }
 }
 
-.bg-gradient-brand {
-  background: linear-gradient(135deg, var(--color-brand-cyan) 0%, var(--color-brand-blue) 100%);
+.bg-pattern {
+  background-image: radial-gradient(var(--color-brand-gray-200) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-.text-gradient-brand {
-  background: linear-gradient(135deg, var(--color-brand-cyan) 0%, var(--color-brand-blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ============================================================
+   SECTION LAYOUT UTILITIES
+   Ensures consistent alignment, padding, and margins site-wide
+   ============================================================ */
+
+/* Page hero banners - centered text */
+.page-hero {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Glassmorphism card effect */
-.glass {
-  background: rgba(36, 36, 36, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.page-hero h1,
+.page-hero h2 {
+  text-align: center;
+}
+
+.page-hero p {
+  text-align: center;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Section header blocks - always centered */
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2,
+.section-header h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section-header p {
+  text-align: center;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--color-text-secondary);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+/* Split sections (image + text side-by-side) */
+.split-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.split-section .split-text {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.split-section .split-text p {
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 1024px) {
+  .split-section {
+    flex-direction: row;
+    gap: 3rem;
+  }
+
+  .split-section .split-text {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .split-section .split-text p {
+    margin-left: 0;
+  }
+}
+
+/* Image containers in split layouts */
+.split-image {
+  width: 100%;
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+/* Consistent card grid spacing */
+.card-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* CTA sections */
+.cta-section {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cta-section h2 {
+  text-align: center;
+  color: white;
+}
+
+.cta-section p {
+  text-align: center;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-section .cta-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 640px) {
+  .cta-section .cta-buttons {
+    flex-direction: row;
+  }
 }
 
 /* ============================================================
    ANIMATION CLASSES
    ============================================================ */
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp {
+@keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 195, 247, 0.4); }
-  50% { box-shadow: 0 0 20px 6px rgba(79, 195, 247, 0.15); }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+.animate-fade-up {
+  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+  animation: fadeIn 0.8s ease forwards;
 }
 
-.animate-slide-up {
-  animation: slideUp 0.4s ease-out forwards;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2.5s ease-in-out infinite;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.stagger-children > * {
-  opacity: 0;
-  animation: slideUp 0.4s ease-out forwards;
-}
-
-.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
-.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
-.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
-.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-1 { animation-delay: 100ms; }
+.stagger-2 { animation-delay: 200ms; }
+.stagger-3 { animation-delay: 300ms; }
+.stagger-4 { animation-delay: 400ms; }

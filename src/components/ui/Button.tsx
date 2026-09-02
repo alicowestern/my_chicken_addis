@@ -1,7 +1,7 @@
 import React from 'react'
 import { Loader2 } from 'lucide-react'
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger'
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'light' | 'outline-light'
 type ButtonSize = 'sm' | 'md' | 'lg'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -14,13 +14,17 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-gradient-brand text-gray-900 hover:brightness-110 shadow-soft',
+    'bg-brand-cyan-dark text-white hover:bg-brand-cyan shadow-sm',
   secondary:
-    'bg-transparent text-brand-cyan border border-brand-cyan hover:bg-brand-cyan-dim',
+    'bg-white text-brand-gray-900 border border-brand-gray-300 hover:bg-brand-gray-50 hover:border-brand-cyan-dark',
   ghost:
-    'bg-transparent text-brand-white border-transparent hover:text-brand-cyan',
+    'bg-transparent text-brand-gray-900 border-transparent hover:text-brand-cyan-dark hover:bg-brand-gray-50',
   danger:
-    'bg-error text-brand-white hover:brightness-110 shadow-soft',
+    'bg-error text-white hover:brightness-110 shadow-sm',
+  light:
+    'bg-white text-brand-cyan-dark hover:bg-brand-gray-50 shadow-sm',
+  'outline-light':
+    'bg-transparent text-white border border-white/20 hover:bg-white/10',
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -44,9 +48,9 @@ export default function Button({
     <button
       className={`
         inline-flex items-center justify-center font-semibold rounded-md
-        transition-all duration-300 ease-in-out
-        hover:-translate-y-[2px]
-        focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand-cyan
+        transition-all duration-200 ease-in-out
+        hover:-translate-y-px
+        focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-cyan
         disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0
         ${variantStyles[variant]}
         ${sizeStyles[size]}

@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <section className="relative py-16 bg-brand-dark-deep overflow-hidden border-b border-[rgba(255,255,255,0.05)]">
-        <div className="container-main relative z-10 flex flex-col items-center text-center">
+      <section className="relative py-16 bg-brand-bg overflow-hidden border-b border-brand-gray-200">
+        <div className="container-main relative z-10 page-hero">
           <div className="max-w-3xl mx-auto">
             <SectionHeader
               as="h1"
@@ -24,27 +24,27 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="section-padding bg-brand-dark">
+      <section className="section-padding bg-white">
         <div className="container-main">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
             {/* Contact Form */}
-            <div className="bg-brand-surface rounded-2xl p-8 border border-[rgba(255,255,255,0.05)] shadow-card">
-              <h3 className="text-2xl font-bold font-heading text-brand-white mb-6">Send Us a Message</h3>
+            <div className="bg-white rounded-2xl p-8 border border-brand-gray-200 shadow-card">
+              <h3 className="text-2xl font-bold font-heading text-brand-gray-900 mb-6">Send Us a Message</h3>
               <ContactForm />
             </div>
 
             {/* Contact Info */}
             <div className="space-y-10 lg:pl-8 pt-4">
               <div>
-                <h3 className="text-2xl font-bold font-heading text-brand-white mb-8">Contact Information</h3>
+                <h3 className="text-2xl font-bold font-heading text-brand-gray-900 mb-8">Contact Information</h3>
                 <div className="space-y-8">
                   <a href="tel:[COMPANY_PHONE]" className="flex gap-5 items-start group">
                     <div className="w-12 h-12 rounded-full border border-brand-cyan bg-brand-cyan/10 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-cyan/20 transition-colors">
                       <Phone className="w-5 h-5 text-brand-cyan" />
                     </div>
                     <div>
-                      <p className="font-bold text-brand-white mb-1">Phone</p>
-                      <p className="text-sm text-brand-muted">[COMPANY PHONE]</p>
+                      <p className="font-bold text-brand-gray-900 mb-1">Phone</p>
+                      <p className="text-sm text-brand-gray-500">[COMPANY PHONE]</p>
                     </div>
                   </a>
 
@@ -53,8 +53,8 @@ export default function ContactPage() {
                       <MessageCircle className="w-5 h-5 text-brand-cyan" />
                     </div>
                     <div>
-                      <p className="font-bold text-brand-white mb-1">WhatsApp</p>
-                      <p className="text-sm text-brand-muted">Chat with us anytime</p>
+                      <p className="font-bold text-brand-gray-900 mb-1">WhatsApp</p>
+                      <p className="text-sm text-brand-gray-500">Chat with us anytime</p>
                     </div>
                   </a>
 
@@ -63,8 +63,8 @@ export default function ContactPage() {
                       <Mail className="w-5 h-5 text-brand-cyan" />
                     </div>
                     <div>
-                      <p className="font-bold text-brand-white mb-1">Email</p>
-                      <p className="text-sm text-brand-muted">[COMPANY EMAIL]</p>
+                      <p className="font-bold text-brand-gray-900 mb-1">Email</p>
+                      <p className="text-sm text-brand-gray-500">[COMPANY EMAIL]</p>
                     </div>
                   </a>
 
@@ -73,8 +73,8 @@ export default function ContactPage() {
                       <MapPin className="w-5 h-5 text-brand-cyan" />
                     </div>
                     <div>
-                      <p className="font-bold text-brand-white mb-1">Address</p>
-                      <p className="text-sm text-brand-muted">Addis Ababa, Ethiopia</p>
+                      <p className="font-bold text-brand-gray-900 mb-1">Address</p>
+                      <p className="text-sm text-brand-gray-500">Addis Ababa, Ethiopia</p>
                     </div>
                   </div>
 
@@ -83,9 +83,9 @@ export default function ContactPage() {
                       <Clock className="w-5 h-5 text-brand-cyan" />
                     </div>
                     <div>
-                      <p className="font-bold text-brand-white mb-1">Business Hours</p>
-                      <p className="text-sm text-brand-muted">Monday – Saturday: 8:00 AM – 6:00 PM</p>
-                      <p className="text-sm text-brand-muted">Sunday: Closed</p>
+                      <p className="font-bold text-brand-gray-900 mb-1">Business Hours</p>
+                      <p className="text-sm text-brand-gray-500">Monday – Saturday: 8:00 AM – 6:00 PM</p>
+                      <p className="text-sm text-brand-gray-500">Sunday: Closed</p>
                     </div>
                   </div>
                 </div>

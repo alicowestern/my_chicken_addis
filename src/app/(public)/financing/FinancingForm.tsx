@@ -36,8 +36,8 @@ export default function FinancingForm() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="text-xl font-bold text-brand-white mb-2">Application Submitted!</h3>
-        <p className="text-brand-muted text-sm">Our finance team will review your application and contact you soon.</p>
+        <h3 className="text-xl font-bold text-brand-gray-900 mb-2">Application Submitted!</h3>
+        <p className="text-brand-gray-500 text-sm">Our finance team will review your application and contact you soon.</p>
       </div>
     )
   }

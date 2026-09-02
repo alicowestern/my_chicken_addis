@@ -23,11 +23,11 @@ export default function Card({
   return (
     <div
       className={`
-        bg-brand-surface rounded-lg border border-[rgba(255,255,255,0.10)]
-        shadow-soft
+        bg-brand-surface rounded-xl border border-brand-gray-200
+        shadow-sm
         ${
           hover
-            ? 'transition-all duration-300 ease-in-out hover:border-[rgba(79,195,247,0.45)] hover:shadow-card hover:-translate-y-1'
+            ? 'transition-all duration-300 ease-in-out hover:border-brand-cyan-dark hover:shadow-md hover:-translate-y-1'
             : ''
         }
         ${paddingStyles[padding]}
@@ -48,7 +48,7 @@ export function CardHeader({
   className?: string
 }) {
   return (
-    <div className={`pb-4 border-b border-[rgba(255,255,255,0.08)] ${className}`}>
+    <div className={`pb-4 border-b border-brand-gray-200 ${className}`}>
       {children}
     </div>
   )
@@ -72,7 +72,7 @@ export function CardFooter({
   className?: string
 }) {
   return (
-    <div className={`pt-4 border-t border-[rgba(255,255,255,0.08)] ${className}`}>
+    <div className={`pt-4 border-t border-brand-gray-200 ${className}`}>
       {children}
     </div>
   )

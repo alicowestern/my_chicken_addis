@@ -33,7 +33,7 @@ export default function GalleryGrid({ items }: { items: Media[] }) {
               className={`px-6 py-2 text-sm font-semibold rounded-full border transition-colors ${
                 category === cat
                   ? 'bg-brand-cyan/10 text-brand-cyan border-brand-cyan/30'
-                  : 'text-brand-muted border-[rgba(255,255,255,0.1)] hover:text-brand-white hover:border-[rgba(255,255,255,0.2)]'
+                  : 'text-brand-gray-500 border-brand-gray-200 hover:text-brand-gray-900 hover:border-[rgba(255,255,255,0.2)]'
               }`}
             >
               {cat === 'ALL' ? 'All Photos' : cat.replace('_', ' ')}
@@ -48,7 +48,7 @@ export default function GalleryGrid({ items }: { items: Media[] }) {
           <div
             key={item.id}
             onClick={() => setSelectedImage(item.url)}
-            className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer border border-[rgba(255,255,255,0.05)] bg-brand-surface"
+            className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer border border-brand-gray-200 bg-white"
           >
             {item.fileType?.includes('image') || !item.fileType ? (
               <img
@@ -57,7 +57,7 @@ export default function GalleryGrid({ items }: { items: Media[] }) {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-brand-dark text-brand-muted text-sm">
+              <div className="w-full h-full flex items-center justify-center bg-white text-brand-gray-500 text-sm">
                 Video Document
               </div>
             )}

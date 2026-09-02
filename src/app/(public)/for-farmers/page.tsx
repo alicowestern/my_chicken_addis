@@ -20,8 +20,8 @@ export default function ForFarmersPage() {
 
   return (
     <>
-      <section className="relative py-16 bg-brand-dark-deep overflow-hidden border-b border-[rgba(255,255,255,0.05)]">
-        <div className="container-main relative z-10 flex flex-col items-center text-center">
+      <section className="relative py-16 bg-brand-bg overflow-hidden border-b border-brand-gray-200">
+        <div className="container-main relative z-10 page-hero">
           <div className="max-w-3xl mx-auto">
             <SectionHeader
               as="h1"
@@ -33,15 +33,15 @@ export default function ForFarmersPage() {
         </div>
       </section>
 
-      <section className="section-padding bg-brand-dark">
+      <section className="section-padding bg-white">
         <div className="container-main">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {steps.map((step, idx) => (
-              <div key={step.title} className="text-center p-6 bg-brand-surface rounded-xl border border-[rgba(255,255,255,0.05)] hover:border-brand-cyan/30 transition-colors">
+              <div key={step.title} className="text-center p-6 bg-white rounded-xl border border-brand-gray-200 hover:border-brand-cyan/30 transition-colors">
                 <div className="text-4xl mb-4">{step.emoji}</div>
                 <div className="text-xs text-brand-cyan font-bold tracking-widest uppercase mb-2">Step {idx + 1}</div>
-                <h3 className="font-bold text-brand-white mb-2">{step.title}</h3>
-                <p className="text-sm text-brand-muted">{step.desc}</p>
+                <h3 className="font-bold text-brand-gray-900 mb-2">{step.title}</h3>
+                <p className="text-sm text-brand-gray-500">{step.desc}</p>
               </div>
             ))}
           </div>

@@ -23,20 +23,20 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-brand-dark-deep pt-16 sm:pt-20 pb-8 sm:pb-10 border-t border-[rgba(255,255,255,0.05)]">
+    <footer className="bg-brand-gray-900 pt-16 sm:pt-20 pb-8 sm:pb-10 border-t border-brand-gray-800">
       <div className="container-main">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 mb-12 sm:mb-16">
           {/* Brand Info */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block mb-6">
-              <span className="block text-2xl font-bold text-brand-white font-heading leading-none">
+              <span className="block text-2xl font-bold text-white font-heading leading-none">
                 My Chicken
               </span>
               <span className="block text-sm font-bold text-brand-cyan tracking-[0.2em] uppercase mt-1 leading-none">
                 Addis
               </span>
             </Link>
-            <p className="text-brand-muted text-sm leading-relaxed mb-6">
+            <p className="text-brand-gray-300 text-sm leading-relaxed mb-6">
               Helping farmers start and grow successful poultry businesses with
               quality birds, feed, training, and access to financing opportunities.
             </p>
@@ -47,7 +47,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="text-brand-white font-bold text-sm uppercase tracking-wider mb-5 sm:mb-6 text-left">
+            <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-5 sm:mb-6 text-left">
               Services
             </h3>
             <ul className="space-y-3 sm:space-y-4">
@@ -55,7 +55,7 @@ export default function Footer() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm text-brand-gray hover:text-brand-cyan transition-colors duration-300"
+                    className="text-sm text-brand-gray-300 hover:text-brand-cyan transition-colors duration-200"
                   >
                     {item.name}
                   </Link>
@@ -66,7 +66,7 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-brand-white font-bold text-sm uppercase tracking-wider mb-5 sm:mb-6 text-left">
+            <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-5 sm:mb-6 text-left">
               Company
             </h3>
             <ul className="space-y-3 sm:space-y-4">
@@ -74,7 +74,7 @@ export default function Footer() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm text-brand-gray hover:text-brand-cyan transition-colors duration-300"
+                    className="text-sm text-brand-gray-300 hover:text-brand-cyan transition-colors duration-200"
                   >
                     {item.name}
                   </Link>
@@ -85,14 +85,14 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-brand-white font-bold text-sm uppercase tracking-wider mb-5 sm:mb-6 text-left">
+            <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-5 sm:mb-6 text-left">
               Contact Us
             </h3>
             <ul className="space-y-3 sm:space-y-4">
               <li>
                 <a
                   href={`tel:${COMPANY.phone.replace(/\s/g, '')}`}
-                  className="flex items-start gap-3 text-sm text-brand-gray hover:text-brand-cyan transition-colors duration-300 group"
+                  className="flex items-start gap-3 text-sm text-brand-gray-300 hover:text-brand-cyan transition-colors duration-200 group"
                 >
                   <Phone className="w-4 h-4 mt-0.5 flex-shrink-0 text-brand-cyan group-hover:scale-110 transition-transform" />
                   <span>{COMPANY.phone}</span>
@@ -103,7 +103,7 @@ export default function Footer() {
                   href={`https://wa.me/${COMPANY.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-3 text-sm text-brand-gray hover:text-brand-cyan transition-colors duration-300 group"
+                  className="flex items-start gap-3 text-sm text-brand-gray-300 hover:text-brand-cyan transition-colors duration-200 group"
                 >
                   <MessageCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-brand-cyan group-hover:scale-110 transition-transform" />
                   <span>WhatsApp Chat</span>
@@ -112,14 +112,14 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${COMPANY.email}`}
-                  className="flex items-start gap-3 text-sm text-brand-gray hover:text-brand-cyan transition-colors duration-300 group"
+                  className="flex items-start gap-3 text-sm text-brand-gray-300 hover:text-brand-cyan transition-colors duration-200 group"
                 >
                   <Mail className="w-4 h-4 mt-0.5 flex-shrink-0 text-brand-cyan group-hover:scale-110 transition-transform" />
                   <span>{COMPANY.email}</span>
                 </a>
               </li>
               <li>
-                <div className="flex items-start gap-3 text-sm text-brand-gray">
+                <div className="flex items-start gap-3 text-sm text-brand-gray-300">
                   <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-brand-cyan" />
                   <span>{COMPANY.address}</span>
                 </div>
@@ -129,17 +129,17 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 sm:pt-8 border-t border-[rgba(255,255,255,0.05)] flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-          <p className="text-xs text-brand-gray text-center sm:text-left">
+        <div className="pt-6 sm:pt-8 border-t border-brand-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
+          <p className="text-xs text-brand-gray-400 text-center sm:text-left">
             © {currentYear} {COMPANY.name}. All Rights Reserved.
           </p>
 
           <div className="flex items-center gap-4">
-            <Link href="/admin" className="text-xs text-brand-gray hover:text-brand-cyan transition-colors">
+            <Link href="/admin" className="text-xs text-brand-gray-400 hover:text-brand-cyan transition-colors">
               Admin Portal
             </Link>
             
-            {/* Social Links — only show if at least one is configured */}
+            {/* Social Links */}
             {Object.values(SOCIAL_LINKS).some(Boolean) && (
             <div className="flex gap-3">
               {SOCIAL_LINKS.telegram && (
@@ -147,7 +147,7 @@ export default function Footer() {
                   href={SOCIAL_LINKS.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full border border-brand-gray/50 flex items-center justify-center text-brand-light-gray hover:border-brand-cyan hover:text-brand-cyan transition-all duration-300 text-xs font-bold"
+                  className="w-9 h-9 rounded-full border border-brand-gray-700 flex items-center justify-center text-brand-gray-300 hover:border-brand-cyan hover:text-brand-cyan transition-all duration-200 text-xs font-bold"
                   aria-label="Telegram"
                 >
                   TG
@@ -158,7 +158,7 @@ export default function Footer() {
                   href={SOCIAL_LINKS.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full border border-brand-gray/50 flex items-center justify-center text-brand-light-gray hover:border-brand-cyan hover:text-brand-cyan transition-all duration-300 text-xs font-bold"
+                  className="w-9 h-9 rounded-full border border-brand-gray-700 flex items-center justify-center text-brand-gray-300 hover:border-brand-cyan hover:text-brand-cyan transition-all duration-200 text-xs font-bold"
                   aria-label="Facebook"
                 >
                   FB
@@ -169,7 +169,7 @@ export default function Footer() {
                   href={SOCIAL_LINKS.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full border border-brand-gray/50 flex items-center justify-center text-brand-light-gray hover:border-brand-cyan hover:text-brand-cyan transition-all duration-300 text-xs font-bold"
+                  className="w-9 h-9 rounded-full border border-brand-gray-700 flex items-center justify-center text-brand-gray-300 hover:border-brand-cyan hover:text-brand-cyan transition-all duration-200 text-xs font-bold"
                   aria-label="Instagram"
                 >
                   IG

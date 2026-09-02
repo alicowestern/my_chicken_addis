@@ -45,8 +45,8 @@ export default function TrainingRegistrationForm({ courses }: { courses: Course[
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="text-xl font-bold text-brand-white mb-2">Registration Received!</h3>
-        <p className="text-brand-muted text-sm mb-6">Our training coordinator will contact you shortly to confirm your spot.</p>
+        <h3 className="text-xl font-bold text-brand-gray-900 mb-2">Registration Received!</h3>
+        <p className="text-brand-gray-500 text-sm mb-6">Our training coordinator will contact you shortly to confirm your spot.</p>
         <Button onClick={() => setSubmitted(false)} variant="ghost" className="rounded-full">Register someone else</Button>
       </div>
     )

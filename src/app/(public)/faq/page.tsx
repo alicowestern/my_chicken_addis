@@ -32,8 +32,8 @@ export default async function FAQPage() {
 
   return (
     <>
-      <section className="relative py-16 bg-brand-dark-deep overflow-hidden border-b border-[rgba(255,255,255,0.05)]">
-        <div className="container-main relative z-10 flex flex-col items-center text-center">
+      <section className="relative py-16 bg-brand-bg overflow-hidden border-b border-brand-gray-200">
+        <div className="container-main relative z-10 page-hero">
           <div className="max-w-3xl mx-auto">
             <SectionHeader
               as="h1"
@@ -45,17 +45,17 @@ export default async function FAQPage() {
         </div>
       </section>
 
-      <section className="section-padding bg-brand-dark">
+      <section className="section-padding bg-white">
         <div className="container-main max-w-3xl">
           {faqs.length === 0 ? (
-            <p className="text-center text-brand-muted py-12">No FAQs available yet. Check back soon!</p>
+            <p className="text-center text-brand-gray-500 py-12">No FAQs available yet. Check back soon!</p>
           ) : (
             <div className="space-y-12">
               {categoryOrder
                 .filter((cat) => grouped[cat]?.length > 0)
                 .map((cat) => (
                   <div key={cat}>
-                    <h2 className="text-xl font-bold text-brand-white mb-6 text-left">
+                    <h2 className="text-xl font-bold text-brand-gray-900 mb-6 text-left">
                       {categoryLabels[cat] || cat}
                     </h2>
                     <FAQAccordion items={grouped[cat]} />

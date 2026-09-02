@@ -50,18 +50,18 @@ export default function EventsList({ events }: { events: Event[] }) {
     <>
       <div className="space-y-6">
         {events.map((event) => (
-          <div key={event.id} className="bg-brand-surface rounded-xl border border-[rgba(255,255,255,0.05)] p-8 hover:border-brand-cyan/30 transition-colors">
+          <div key={event.id} className="bg-white rounded-xl border border-brand-gray-200 p-8 hover:border-brand-cyan/30 transition-colors">
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-3">
                   {event.eventType && <Badge variant="info">{event.eventType}</Badge>}
                   <Badge variant={event.status === 'UPCOMING' ? 'warning' : 'success'}>{event.status}</Badge>
                 </div>
-                <h3 className="text-xl font-bold text-brand-white mb-3">{event.title}</h3>
+                <h3 className="text-xl font-bold text-brand-gray-900 mb-3">{event.title}</h3>
                 {event.description && (
-                  <p className="text-brand-light-gray text-sm leading-relaxed mb-4">{event.description}</p>
+                  <p className="text-brand-gray-600 text-sm leading-relaxed mb-4">{event.description}</p>
                 )}
-                <div className="flex flex-wrap gap-4 text-sm text-brand-muted">
+                <div className="flex flex-wrap gap-4 text-sm text-brand-gray-500">
                   <span className="flex items-center gap-1.5">
                     <Calendar className="w-4 h-4 text-brand-cyan" />
                     {new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
