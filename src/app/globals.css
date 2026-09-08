@@ -12,12 +12,13 @@
   --color-brand-cyan-dark: #01579B;
   --color-brand-cyan-dim: rgba(79, 195, 247, 0.1);
   --color-brand-accent: #FFA726; /* Warm accent for calls to action or highlights */
+  --color-brand-blue: #2196F3;
   
-  /* ---- Background & Surface Colors ---- */
+  /* ---- Background & Surface Colors (Public / Light) ---- */
   --color-brand-bg: #F9FAFB; /* Off-white, clean modern background */
   --color-brand-surface: #FFFFFF; /* Pure white cards */
   --color-brand-surface-alt: #F3F4F6; /* Light gray for secondary sections */
-  
+
   /* ---- Neutral Colors ---- */
   --color-brand-gray-50: #F9FAFB;
   --color-brand-gray-100: #F3F4F6;
@@ -57,6 +58,7 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  --shadow-card: 0 4px 24px -4px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03);
   
   /* ---- Borders ---- */
   --border-default: 1px solid #E5E7EB;
