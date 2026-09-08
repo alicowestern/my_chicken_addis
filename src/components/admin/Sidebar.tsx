@@ -202,7 +202,11 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
                             {item.name}
                           </span>
                         ) : (
-                          <span className="truncate font-bold tracking-wider">
+                          <span className={`flex items-center justify-center flex-shrink-0 w-9 h-9 rounded-xl font-bold text-sm transition-all duration-300
+                            ${active 
+                              ? 'bg-gradient-to-br from-brand-cyan/30 to-brand-cyan/10 text-brand-cyan shadow-[0_0_12px_rgba(79,195,247,0.4)] border border-brand-cyan/30' 
+                              : 'bg-[rgba(255,255,255,0.03)] text-brand-muted group-hover:bg-[rgba(79,195,247,0.1)] group-hover:text-brand-cyan border border-[rgba(255,255,255,0.05)] group-hover:border-brand-cyan/20'}
+                          `}>
                             {item.name.charAt(0)}
                           </span>
                         )}
