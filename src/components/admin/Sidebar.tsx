@@ -65,10 +65,7 @@ const navSections = [
   },
 ]
 
-// Flat list for easy iteration
-const allNavItems = navSections.flatMap((s) => s.items)
-
-export default function Sidebar() {
+export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { userName?: string; userRole?: string }) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({})
@@ -99,12 +96,22 @@ export default function Sidebar() {
     setCollapsedSections((prev) => ({ ...prev, [label]: !prev[label] }))
   }
 
+  // User initials for avatar
+  const initials = userName
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+
+  const displayRole = userRole.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())
+
   const sidebarContent = (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="flex items-center justify-between flex-shrink-0 px-6 pt-5 pb-4">
-        <Link href="/" className="flex flex-col">
-          <span className="text-xl font-bold text-brand-white font-heading leading-none">
+      <div className="flex items-center justify-between flex-shrink-0 px-6 pt-6 pb-5">
+        <Link href="/" className="flex flex-col group">
+          <span className="text-xl font-bold text-brand-white font-heading leading-none transition-colors group-hover:text-brand-cyan">
             my chicken
           </span>
           <span className="text-xs font-bold text-brand-cyan tracking-[0.2em] uppercase mt-1 leading-none">
@@ -122,12 +129,15 @@ export default function Sidebar() {
         </button>
       </div>
 
+      {/* Gradient separator */}
+      <div className="mx-4 h-px bg-gradient-to-r from-transparent via-brand-cyan/20 to-transparent" />
+
       {/* Navigation */}
-      <nav className="flex-1 px-4 overflow-y-auto pb-4 scrollbar-thin">
+      <nav className="flex-1 px-3 overflow-y-auto py-4 scrollbar-thin">
         {navSections.map((section) => {
           const isCollapsed = collapsedSections[section.label]
           return (
-            <div key={section.label} className="mb-2">
+            <div key={section.label} className="mb-1">
               <button
                 onClick={() => toggleSection(section.label)}
                 className="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold text-brand-muted/60 tracking-[0.15em] uppercase hover:text-brand-muted transition-colors"
@@ -147,15 +157,19 @@ export default function Sidebar() {
                         key={item.name}
                         href={item.href}
                         className={`
-                          group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200
+                          group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 relative
                           ${active
-                            ? 'bg-brand-cyan/10 text-brand-cyan shadow-[inset_3px_0_0_0_var(--color-brand-cyan)]'
+                            ? 'bg-brand-cyan/10 text-brand-cyan'
                             : 'text-brand-light-gray hover:text-brand-cyan hover:bg-[rgba(79,195,247,0.04)]'
                           }
                         `}
                       >
+                        {/* Active indicator bar */}
+                        {active && (
+                          <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-brand-cyan rounded-r-full" />
+                        )}
                         <Icon
-                          className={`mr-3 flex-shrink-0 h-[18px] w-[18px] ${active ? 'text-brand-cyan' : 'text-brand-muted group-hover:text-brand-cyan'}`}
+                          className={`mr-3 flex-shrink-0 h-[18px] w-[18px] transition-colors ${active ? 'text-brand-cyan' : 'text-brand-muted group-hover:text-brand-cyan'}`}
                           aria-hidden="true"
                         />
                         {item.name}
@@ -176,11 +190,11 @@ export default function Sidebar() {
           className="flex-shrink-0 w-full group block"
         >
           <div className="flex items-center">
-            <div className="inline-flex h-9 w-9 rounded-full bg-brand-cyan/20 items-center justify-center text-brand-cyan font-bold border border-brand-cyan/30">
-              A
+            <div className="inline-flex h-9 w-9 rounded-full bg-gradient-to-br from-brand-cyan/30 to-brand-blue/20 items-center justify-center text-brand-cyan font-bold text-sm border border-brand-cyan/20">
+              {initials}
             </div>
-            <div className="ml-3 text-left">
-              <p className="text-sm font-medium text-brand-white">Admin User</p>
+            <div className="ml-3 text-left min-w-0">
+              <p className="text-sm font-medium text-brand-white truncate">{userName}</p>
               <div className="flex items-center text-xs font-medium text-brand-muted group-hover:text-error transition-colors mt-0.5">
                 <LogOut className="w-3 h-3 mr-1" />
                 Sign out
@@ -197,7 +211,7 @@ export default function Sidebar() {
       {/* Mobile hamburger button — rendered in the admin layout via this component */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2.5 rounded-xl bg-brand-surface/90 backdrop-blur-md border border-[rgba(255,255,255,0.08)] text-brand-light-gray hover:text-brand-cyan shadow-card transition-all"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2.5 rounded-xl bg-brand-dark-deep/90 backdrop-blur-md border border-[rgba(255,255,255,0.08)] text-brand-light-gray hover:text-brand-cyan shadow-card transition-all"
         aria-label="Open sidebar"
       >
         <Menu className="w-5 h-5" />

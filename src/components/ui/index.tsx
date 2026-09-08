@@ -99,23 +99,27 @@ export function StatCard({
   }
 
   return (
-    <div className="bg-brand-surface rounded-xl border border-[rgba(255,255,255,0.08)] p-6 shadow-card">
-      <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-brand-muted">{label}</p>
-        {icon && (
-          <div className="text-brand-cyan">
-            {icon}
+    <div className="group relative bg-brand-surface rounded-xl border border-[rgba(255,255,255,0.06)] p-5 sm:p-6 shadow-card hover:border-brand-cyan/20 transition-all duration-300 hover:shadow-[0_4px_24px_-4px_rgba(79,195,247,0.1)] overflow-hidden">
+      {/* Subtle glow effect on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-cyan/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      <div className="relative">
+        <div className="flex items-center justify-between">
+          <p className="text-xs sm:text-sm font-medium text-brand-muted">{label}</p>
+          {icon && (
+            <div className="w-9 h-9 rounded-lg bg-brand-cyan/10 flex items-center justify-center text-brand-cyan group-hover:bg-brand-cyan/15 transition-colors">
+              {icon}
+            </div>
+          )}
+        </div>
+        <p className="mt-3 text-2xl sm:text-3xl font-bold text-brand-white tracking-tight">{value}</p>
+        {change && (
+          <div className="mt-2 flex items-center gap-2">
+            <span className={`text-xs font-medium ${changeColor[changeType]}`}>
+              {change}
+            </span>
           </div>
         )}
       </div>
-      <p className="mt-3 text-3xl font-bold text-brand-white">{value}</p>
-      {change && (
-        <div className="mt-2 flex items-center gap-2">
-          <span className={`text-xs font-medium ${changeColor[changeType]}`}>
-            {change}
-          </span>
-        </div>
-      )}
     </div>
   )
 }

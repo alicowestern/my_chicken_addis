@@ -39,13 +39,18 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <div className="mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-2xl font-bold font-heading text-brand-white mb-1 sm:mb-2 text-left">Dashboard Overview</h1>
-        <p className="text-brand-muted text-sm">Welcome back to the My Chicken Addis admin portal.</p>
+      <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold font-heading text-brand-white mb-1 text-left">Dashboard Overview</h1>
+          <p className="text-brand-muted text-sm">Welcome back to the My Chicken Addis admin portal.</p>
+        </div>
+        <p className="text-xs text-brand-muted tabular-nums">
+          {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+        </p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         <Link href="/admin/farmers">
           <StatCard
             label="Total Farmers"
@@ -87,9 +92,9 @@ export default async function AdminDashboard() {
       {/* Recent Activity Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-8">
         {/* Recent Orders */}
-        <div className="bg-brand-surface rounded-xl border border-[rgba(255,255,255,0.05)] overflow-hidden">
-          <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-[rgba(255,255,255,0.05)] bg-brand-dark flex items-center justify-between">
-            <h3 className="text-base sm:text-lg font-bold text-brand-white">Recent Orders</h3>
+        <div className="bg-brand-surface rounded-xl border border-[rgba(255,255,255,0.06)] overflow-hidden shadow-card">
+          <div className="px-4 sm:px-6 py-4 border-b border-[rgba(255,255,255,0.05)] flex items-center justify-between">
+            <h3 className="text-sm sm:text-base font-bold text-brand-white">Recent Orders</h3>
             <Link href="/admin/orders" className="text-xs text-brand-cyan hover:text-brand-blue flex items-center gap-1 transition-colors">
               View All <ArrowRight className="w-3 h-3" />
             </Link>
@@ -125,12 +130,12 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Recent Leads */}
-        <div className="bg-brand-surface rounded-xl border border-[rgba(255,255,255,0.05)] overflow-hidden">
-          <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-[rgba(255,255,255,0.05)] bg-brand-dark flex items-center justify-between">
+        <div className="bg-brand-surface rounded-xl border border-[rgba(255,255,255,0.06)] overflow-hidden shadow-card">
+          <div className="px-4 sm:px-6 py-4 border-b border-[rgba(255,255,255,0.05)] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h3 className="text-base sm:text-lg font-bold text-brand-white">New Leads</h3>
+              <h3 className="text-sm sm:text-base font-bold text-brand-white">New Leads</h3>
               {stats.newLeads > 0 && (
-                <span className="inline-flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-brand-cyan/10 text-brand-cyan text-[10px] sm:text-xs font-bold border border-brand-cyan/20">
+                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-cyan/10 text-brand-cyan text-[10px] font-bold border border-brand-cyan/20">
                   {stats.newLeads}
                 </span>
               )}

@@ -11,8 +11,6 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
-  PieChart,
-  Pie,
   Cell
 } from 'recharts'
 import type { SalesChartData, FarmerChartData } from '@/lib/actions/dashboard'
