@@ -17,11 +17,10 @@ export default function TopBar({ userName = 'Admin', userRole = 'ADMIN' }: { use
         {/* Search */}
         <div className="flex-1 max-w-md">
           <div className="relative group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-gray group-focus-within:text-brand-cyan transition-colors" />
             <input
               type="text"
               placeholder="Search farmers, orders, leads..."
-              className="w-full pl-10 pr-4 py-2 text-sm bg-brand-dark/60 border border-[rgba(255,255,255,0.06)] rounded-lg text-brand-white placeholder:text-brand-gray/60 focus:outline-none focus:ring-2 focus:ring-brand-cyan/20 focus:border-brand-cyan/40 focus:bg-brand-dark transition-all"
+              className="w-full px-4 py-2 text-sm bg-brand-dark/60 border border-[rgba(255,255,255,0.06)] rounded-lg text-brand-white placeholder:text-brand-gray/60 focus:outline-none focus:ring-2 focus:ring-brand-cyan/20 focus:border-brand-cyan/40 focus:bg-brand-dark transition-all"
             />
           </div>
         </div>

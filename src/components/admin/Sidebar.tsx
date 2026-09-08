@@ -178,7 +178,6 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
               {(!sectionCollapsed || isCollapsed) && (
                 <div className="space-y-1">
                   {section.items.map((item) => {
-                    const Icon = item.icon
                     const active = isActive(item.href)
                     return (
                       <Link
@@ -187,7 +186,7 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
                         title={isCollapsed ? item.name : undefined}
                         className={`
                           group flex items-center py-2.5 text-sm font-medium rounded-xl transition-all duration-300 relative overflow-hidden
-                          ${isCollapsed ? 'justify-center px-0 mx-1' : 'px-3'}
+                          ${isCollapsed ? 'justify-center px-0 mx-1' : 'px-4'}
                           ${active
                             ? 'bg-gradient-to-r from-brand-cyan/20 to-brand-cyan/5 text-brand-cyan shadow-[inset_0_0_20px_rgba(79,195,247,0.15)]'
                             : 'text-brand-light-gray hover:text-brand-cyan hover:bg-brand-cyan/10'
@@ -198,16 +197,13 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
                         {active && (
                           <span className="absolute left-0 top-0 bottom-0 w-1 bg-brand-cyan rounded-r-full shadow-[0_0_10px_rgba(79,195,247,0.8)]" />
                         )}
-                        <Icon
-                          className={`flex-shrink-0 h-[18px] w-[18px] transition-all duration-300 
-                            ${!isCollapsed ? 'mr-3' : ''} 
-                            ${active ? 'text-brand-cyan drop-shadow-[0_0_5px_rgba(79,195,247,0.5)] scale-110' : 'text-brand-muted group-hover:text-brand-cyan group-hover:scale-110'}
-                          `}
-                          aria-hidden="true"
-                        />
-                        {!isCollapsed && (
+                        {!isCollapsed ? (
                           <span className="truncate group-hover:translate-x-1 transition-transform duration-300">
                             {item.name}
+                          </span>
+                        ) : (
+                          <span className="truncate font-bold tracking-wider">
+                            {item.name.charAt(0)}
                           </span>
                         )}
                         
