@@ -79,6 +79,7 @@ export default function LoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              icon={<Mail className="w-5 h-5" />}
               placeholder="admin@mychickenaddis.com"
             />
 
@@ -88,6 +89,7 @@ export default function LoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              icon={<Lock className="w-5 h-5" />}
               placeholder="••••••••"
             />
 
