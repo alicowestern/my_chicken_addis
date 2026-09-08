@@ -109,7 +109,7 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
   const displayRole = userRole.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())
 
   const sidebarContent = (isCollapsed: boolean) => (
-    <div className="flex flex-col h-full bg-brand-dark-deep/95 backdrop-blur-xl">
+    <div className="flex flex-col h-full overflow-hidden bg-brand-dark-deep/95 backdrop-blur-xl">
       {/* Top Header & Logo */}
       <div className={`flex items-center flex-shrink-0 px-4 pt-6 pb-5 ${isCollapsed ? 'justify-center flex-col gap-4' : 'justify-between'}`}>
         <div className="flex items-center gap-3">
@@ -154,7 +154,7 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
       <div className="mx-4 h-[1px] bg-gradient-to-r from-transparent via-brand-cyan/30 to-transparent shadow-[0_0_10px_rgba(79,195,247,0.2)]" />
 
       {/* Navigation */}
-      <nav className={`flex-1 overflow-y-auto py-4 scrollbar-thin ${isCollapsed ? 'px-2' : 'px-4'}`}>
+      <nav className={`flex-1 min-h-0 overflow-y-auto py-4 scrollbar-thin ${isCollapsed ? 'px-2' : 'px-4'}`}>
         {navSections.map((section) => {
           const sectionCollapsed = collapsedSections[section.label]
           return (
