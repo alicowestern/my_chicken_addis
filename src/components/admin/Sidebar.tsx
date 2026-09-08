@@ -70,6 +70,8 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
   const [mobileOpen, setMobileOpen] = useState(false)
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({})
 
+  const [desktopCollapsed, setDesktopCollapsed] = useState(false)
+
   const isActive = (href: string) => {
     if (href === '/admin') return pathname === '/admin'
     return pathname.startsWith(href)
@@ -106,48 +108,61 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
 
   const displayRole = userRole.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())
 
-  const sidebarContent = (
+  const sidebarContent = (isCollapsed: boolean) => (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="flex items-center justify-between flex-shrink-0 px-6 pt-6 pb-5">
-        <Link href="/" className="flex flex-col group">
-          <span className="text-xl font-bold text-brand-white font-heading leading-none transition-colors group-hover:text-brand-cyan">
-            my chicken
+      <div className={`flex items-center flex-shrink-0 px-6 pt-6 pb-5 ${isCollapsed ? 'justify-center px-0' : 'justify-between'}`}>
+        <Link href="/" className={`flex flex-col group ${isCollapsed ? 'items-center' : ''}`}>
+          <span className={`font-bold text-brand-white font-heading leading-none transition-colors group-hover:text-brand-cyan ${isCollapsed ? 'text-sm' : 'text-xl'}`}>
+            {isCollapsed ? 'MCA' : 'my chicken'}
           </span>
-          <span className="text-xs font-bold text-brand-cyan tracking-[0.2em] uppercase mt-1 leading-none">
-            addis
-          </span>
-          <span className="text-[10px] text-brand-muted mt-2 tracking-widest uppercase">Admin Panel</span>
+          {!isCollapsed && (
+            <>
+              <span className="text-xs font-bold text-brand-cyan tracking-[0.2em] uppercase mt-1 leading-none">
+                addis
+              </span>
+              <span className="text-[10px] text-brand-muted mt-2 tracking-widest uppercase">Admin Panel</span>
+            </>
+          )}
         </Link>
         {/* Mobile close button */}
-        <button
-          onClick={() => setMobileOpen(false)}
-          className="lg:hidden p-1.5 rounded-md text-brand-muted hover:text-brand-white hover:bg-[rgba(255,255,255,0.05)] transition-colors"
-          aria-label="Close sidebar"
-        >
-          <X className="w-5 h-5" />
-        </button>
+        {!isCollapsed && (
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="lg:hidden p-1.5 rounded-md text-brand-muted hover:text-brand-white hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+            aria-label="Close sidebar"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
       {/* Gradient separator */}
       <div className="mx-4 h-px bg-gradient-to-r from-transparent via-brand-cyan/20 to-transparent" />
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 overflow-y-auto py-4 scrollbar-thin">
+      <nav className={`flex-1 overflow-y-auto py-4 scrollbar-thin ${isCollapsed ? 'px-2' : 'px-3'}`}>
         {navSections.map((section) => {
-          const isCollapsed = collapsedSections[section.label]
+          const sectionCollapsed = collapsedSections[section.label]
           return (
             <div key={section.label} className="mb-1">
-              <button
-                onClick={() => toggleSection(section.label)}
-                className="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold text-brand-muted/60 tracking-[0.15em] uppercase hover:text-brand-muted transition-colors"
-              >
-                {section.label}
-                <ChevronDown
-                  className={`w-3 h-3 transition-transform duration-200 ${isCollapsed ? '-rotate-90' : ''}`}
-                />
-              </button>
               {!isCollapsed && (
+                <button
+                  onClick={() => toggleSection(section.label)}
+                  className="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold text-brand-muted/60 tracking-[0.15em] uppercase hover:text-brand-muted transition-colors"
+                >
+                  {section.label}
+                  <ChevronDown
+                    className={`w-3 h-3 transition-transform duration-200 ${sectionCollapsed ? '-rotate-90' : ''}`}
+                  />
+                </button>
+              )}
+              {isCollapsed && (
+                <div className="px-3 py-2 text-[10px] font-bold text-brand-muted/40 tracking-[0.15em] uppercase text-center">
+                  ---
+                </div>
+              )}
+              {(!sectionCollapsed || isCollapsed) && (
                 <div className="space-y-0.5">
                   {section.items.map((item) => {
                     const Icon = item.icon
@@ -156,8 +171,10 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
                       <Link
                         key={item.name}
                         href={item.href}
+                        title={isCollapsed ? item.name : undefined}
                         className={`
-                          group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 relative
+                          group flex items-center py-2 text-sm font-medium rounded-lg transition-all duration-200 relative
+                          ${isCollapsed ? 'justify-center px-0' : 'px-3'}
                           ${active
                             ? 'bg-brand-cyan/10 text-brand-cyan'
                             : 'text-brand-light-gray hover:text-brand-cyan hover:bg-[rgba(79,195,247,0.04)]'
@@ -169,10 +186,10 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
                           <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-brand-cyan rounded-r-full" />
                         )}
                         <Icon
-                          className={`mr-3 flex-shrink-0 h-[18px] w-[18px] transition-colors ${active ? 'text-brand-cyan' : 'text-brand-muted group-hover:text-brand-cyan'}`}
+                          className={`flex-shrink-0 h-[18px] w-[18px] transition-colors ${!isCollapsed ? 'mr-3' : ''} ${active ? 'text-brand-cyan' : 'text-brand-muted group-hover:text-brand-cyan'}`}
                           aria-hidden="true"
                         />
-                        {item.name}
+                        {!isCollapsed && item.name}
                       </Link>
                     )
                   })}
@@ -184,22 +201,34 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
       </nav>
 
       {/* User & Sign Out */}
-      <div className="flex-shrink-0 border-t border-[rgba(255,255,255,0.05)] p-4">
+      <div className="flex-shrink-0 border-t border-[rgba(255,255,255,0.05)] p-4 flex flex-col gap-2">
+        {/* Collapse Toggle for Desktop */}
+        <button
+          onClick={() => setDesktopCollapsed(!desktopCollapsed)}
+          className={`hidden lg:flex items-center justify-center w-full py-2 mb-2 rounded-lg text-brand-muted hover:text-brand-cyan hover:bg-[rgba(255,255,255,0.05)] transition-colors`}
+          title={desktopCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+        >
+          <Menu className="w-4 h-4" />
+        </button>
+
         <button
           onClick={() => signOut({ callbackUrl: '/auth/login' })}
-          className="flex-shrink-0 w-full group block"
+          className={`flex-shrink-0 w-full group block ${isCollapsed ? 'flex justify-center' : ''}`}
+          title={isCollapsed ? "Sign Out" : undefined}
         >
           <div className="flex items-center">
-            <div className="inline-flex h-9 w-9 rounded-full bg-gradient-to-br from-brand-cyan/30 to-brand-blue/20 items-center justify-center text-brand-cyan font-bold text-sm border border-brand-cyan/20">
+            <div className={`inline-flex rounded-full bg-gradient-to-br from-brand-cyan/30 to-brand-blue/20 items-center justify-center text-brand-cyan font-bold text-sm border border-brand-cyan/20 ${isCollapsed ? 'h-10 w-10' : 'h-9 w-9'}`}>
               {initials}
             </div>
-            <div className="ml-3 text-left min-w-0">
-              <p className="text-sm font-medium text-brand-white truncate">{userName}</p>
-              <div className="flex items-center text-xs font-medium text-brand-muted group-hover:text-error transition-colors mt-0.5">
-                <LogOut className="w-3 h-3 mr-1" />
-                Sign out
+            {!isCollapsed && (
+              <div className="ml-3 text-left min-w-0">
+                <p className="text-sm font-medium text-brand-white truncate">{userName}</p>
+                <div className="flex items-center text-xs font-medium text-brand-muted group-hover:text-error transition-colors mt-0.5">
+                  <LogOut className="w-3 h-3 mr-1" />
+                  Sign out
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </button>
       </div>
@@ -233,12 +262,12 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
           ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
-        {sidebarContent}
+        {sidebarContent(false)}
       </div>
 
       {/* Desktop sidebar — always visible */}
-      <div className="hidden lg:flex lg:flex-col w-64 bg-brand-dark-deep border-r border-[rgba(255,255,255,0.05)] h-screen sticky top-0">
-        {sidebarContent}
+      <div className={`hidden lg:flex lg:flex-col ${desktopCollapsed ? 'w-20' : 'w-64'} transition-all duration-300 ease-in-out bg-brand-dark-deep border-r border-[rgba(255,255,255,0.05)] h-screen sticky top-0`}>
+        {sidebarContent(desktopCollapsed)}
       </div>
     </>
   )
