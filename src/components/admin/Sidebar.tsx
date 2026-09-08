@@ -170,12 +170,8 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
                   />
                 </button>
               )}
-              {isCollapsed && (
-                <div className="px-2 py-3 text-[9px] font-bold text-brand-muted/40 tracking-[0.2em] uppercase text-center border-b border-brand-cyan/10 mx-2 mb-2">
-                  {section.label.slice(0, 3)}
-                </div>
-              )}
-              {(!sectionCollapsed || isCollapsed) && (
+              {isCollapsed && null}
+              {(!sectionCollapsed || isCollapsed) && !isCollapsed && (
                 <div className="space-y-1">
                   {section.items.map((item) => {
                     const active = isActive(item.href)
@@ -197,19 +193,9 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
                         {active && (
                           <span className="absolute left-0 top-0 bottom-0 w-1 bg-brand-cyan rounded-r-full shadow-[0_0_10px_rgba(79,195,247,0.8)]" />
                         )}
-                        {!isCollapsed ? (
-                          <span className="truncate group-hover:translate-x-1 transition-transform duration-300">
-                            {item.name}
-                          </span>
-                        ) : (
-                          <span className={`flex items-center justify-center flex-shrink-0 w-9 h-9 rounded-xl font-bold text-sm transition-all duration-300
-                            ${active 
-                              ? 'bg-gradient-to-br from-brand-cyan/30 to-brand-cyan/10 text-brand-cyan shadow-[0_0_12px_rgba(79,195,247,0.4)] border border-brand-cyan/30' 
-                              : 'bg-[rgba(255,255,255,0.03)] text-brand-muted group-hover:bg-[rgba(79,195,247,0.1)] group-hover:text-brand-cyan border border-[rgba(255,255,255,0.05)] group-hover:border-brand-cyan/20'}
-                          `}>
-                            {item.name.charAt(0)}
-                          </span>
-                        )}
+                        <span className="truncate group-hover:translate-x-1 transition-transform duration-300">
+                          {item.name}
+                        </span>
                         
                         {/* Hover flare effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
