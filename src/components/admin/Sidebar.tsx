@@ -257,7 +257,7 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
       {/* Mobile sidebar drawer */}
       <div
         className={`
-          lg:hidden fixed inset-y-0 left-0 z-50 w-72 bg-brand-dark-deep border-r border-[rgba(255,255,255,0.05)]
+          lg:hidden fixed top-0 left-0 h-[100dvh] z-50 w-72 bg-brand-dark-deep border-r border-[rgba(255,255,255,0.05)]
           transform transition-transform duration-300 ease-in-out
           ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
@@ -266,7 +266,7 @@ export default function Sidebar({ userName = 'Admin', userRole = 'ADMIN' }: { us
       </div>
 
       {/* Desktop sidebar — always visible */}
-      <div className={`hidden lg:flex lg:flex-col ${desktopCollapsed ? 'w-20' : 'w-64'} transition-all duration-300 ease-in-out bg-brand-dark-deep border-r border-[rgba(255,255,255,0.05)] h-screen sticky top-0`}>
+      <div className={`hidden lg:flex lg:flex-col ${desktopCollapsed ? 'w-20' : 'w-64'} transition-all duration-300 ease-in-out bg-brand-dark-deep border-r border-[rgba(255,255,255,0.05)] h-[100dvh] sticky top-0`}>
         {sidebarContent(desktopCollapsed)}
       </div>
     </>

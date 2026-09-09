@@ -24,7 +24,7 @@ export default async function AdminLayout({
     }
 
     return (
-      <div className="flex min-h-screen bg-brand-dark">
+      <div className="flex min-h-[100dvh] bg-brand-dark">
         <Sidebar userName={session.user?.name || 'Admin'} userRole={session.user?.role || 'ADMIN'} />
         <div className="flex-1 min-w-0 flex flex-col">
           <TopBar userName={session.user?.name || 'Admin'} userRole={session.user?.role || 'ADMIN'} />
